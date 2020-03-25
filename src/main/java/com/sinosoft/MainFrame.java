@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 		JButton btnNewButton = new JButton("执行");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				//交强险执行
 			}
 		});
 		btnNewButton.setFont(new Font("华文行楷", Font.PLAIN, 18));
@@ -126,7 +126,7 @@ public class MainFrame extends JFrame {
 		JButton button_4 = new JButton("执行");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				//商业险执行
 			}
 		});
 		button_4.setFont(new Font("华文行楷", Font.PLAIN, 18));
