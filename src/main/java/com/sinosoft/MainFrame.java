@@ -51,8 +51,8 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
-		setTitle("\u987A\u5EF6\u4FDD\u671F\u8BA1\u7B97");
+		setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
+		setTitle("é¡ºå»¶ä¿æœŸè®¡ç®—");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 647, 339);
 		contentPane = new JPanel();
@@ -62,28 +62,28 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setText("\u75AB\u60C5\u8D77\u671F");
+		textField.setText("ç–«æƒ…èµ·æœŸ");
 		textField.setBounds(137, 37, 148, 24);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_2 = new JTextField();
-		textField_2.setText("\u75AB\u60C5\u6B62\u671F");
+		textField_2.setText("ç–«æƒ…æ­¢æœŸ");
 		textField_2.setColumns(10);
 		textField_2.setBounds(137, 74, 148, 24);
 		contentPane.add(textField_2);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		textPane.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		textPane.setBackground(new Color(255, 255, 255));
-		textPane.setText("\u75AB\u60C5\u8D77\u671F\uFF1A");
+		textPane.setText("ç–«æƒ…èµ·æœŸ");
 		textPane.setBounds(40, 37, 96, 24);
 		contentPane.add(textPane);
 		
 		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		textPane_1.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		textPane_1.setBackground(new Color(255, 255, 255));
-		textPane_1.setText("\u75AB\u60C5\u6B62\u671F\uFF1A");
+		textPane_1.setText("ç–«æƒ…æ­¢æœŸ");
 		textPane_1.setBounds(40, 74, 96, 24);
 		contentPane.add(textPane_1);
 		
@@ -92,44 +92,44 @@ public class MainFrame extends JFrame {
 		comboBox.setBounds(437, 37, 113, 24);
 		contentPane.add(comboBox);
 		
-		JButton btnNewButton = new JButton("\u6267\u884C");
+		JButton btnNewButton = new JButton("æ‰§è¡Œ");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//½»Ç¿ÏÕÒµÎñÖ´ĞĞ
+				//
 			}
 		});
-		btnNewButton.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		btnNewButton.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		btnNewButton.setBounds(137, 131, 113, 27);
 		contentPane.add(btnNewButton);
 		
 		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		textPane_2.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		textPane_2.setBackground(new Color(255, 255, 255));
-		textPane_2.setText("\u5730\u5E02\u9009\u62E9\uFF1A");
+		textPane_2.setText("åœ°å¸‚é€‰æ‹©");
 		textPane_2.setBounds(341, 37, 96, 24);
 		contentPane.add(textPane_2);
 		
 		JTextPane textPane_3 = new JTextPane();
-		textPane_3.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		textPane_3.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		textPane_3.setBackground(new Color(255, 255, 255));
-		textPane_3.setText("\u4EA4\u5F3A\u9669");
+		textPane_3.setText("äº¤å¼ºé™©");
 		textPane_3.setBounds(44, 134, 92, 24);
 		contentPane.add(textPane_3);
 		
 		JTextPane textPane_4 = new JTextPane();
-		textPane_4.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		textPane_4.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		textPane_4.setBackground(new Color(255, 255, 255));
-		textPane_4.setText("\u5546\u4E1A\u9669");
+		textPane_4.setText("å•†ä¸šé™©");
 		textPane_4.setBounds(345, 134, 92, 24);
 		contentPane.add(textPane_4);
 		
-		JButton button_4 = new JButton("\u6267\u884C");
+		JButton button_4 = new JButton("æ‰§è¡Œ");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//ÉÌÒµÏÕÒµÎñÖ´ĞĞ
+				//
 			}
 		});
-		button_4.setFont(new Font("»ªÎÄĞĞ¿¬", Font.PLAIN, 18));
+		button_4.setFont(new Font("åæ–‡è¡Œæ¥·", Font.PLAIN, 18));
 		button_4.setBounds(437, 131, 113, 27);
 		contentPane.add(button_4);
 		
