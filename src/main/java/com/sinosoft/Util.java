@@ -8,14 +8,14 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * ¹«¹²·½·¨ÇøÓò
+ * 
  * @author zyh
  *
  */
-public class util {
+public class Util {
 
     /**
-     * ½»Ç¿-ÒÔ±£µ¥ÆðÆÚ£¬Ë³ÐòÅÅÐò
+     * ï¿½ï¿½Ç¿-ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * @param list
      */
     public static void ciStartTimeSort(List<IACMain_NCPX> list) {
@@ -39,7 +39,7 @@ public class util {
     }
 
     /**
-     * ½»Ç¿-ÒÔ±£µ¥Ö¹ÆÚ£¬µ¹ÐòÅÅÐò
+     * ï¿½ï¿½Ç¿-ï¿½Ô±ï¿½ï¿½ï¿½Ö¹ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * @param list
      */
     public static void ciEndTimeReverse(List<IACMain_NCPX> list) {
@@ -66,7 +66,7 @@ public class util {
 
 
     /**
-     * ÉÌÒµ-ÒÔ±£µ¥ÆðÆÚ£¬Ë³ÐòÅÅÐò
+     * ï¿½ï¿½Òµ-ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * @param list
      */
     public static void caStartTimeSort(List<CACMain_NCPX> list) {
@@ -90,7 +90,7 @@ public class util {
     }
 
     /**
-     * ÉÌÒµ-ÒÔ±£µ¥Ö¹ÆÚ£¬µ¹ÐòÅÅÐò
+     * ï¿½ï¿½Òµ-ï¿½Ô±ï¿½ï¿½ï¿½Ö¹ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * @param list
      */
     public static void caEndTimeReverse(List<CACMain_NCPX> list) {
