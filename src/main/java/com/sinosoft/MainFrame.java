@@ -20,7 +20,11 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+/**
+ * Date 2020/3/24
+ * @author zyh
+ *
+ */
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
