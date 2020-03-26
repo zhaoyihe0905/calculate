@@ -4,6 +4,8 @@ import com.CA.CACMain_NCPX;
 import com.CI.IACMain_NCPX;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -158,4 +160,34 @@ public class Util {
         return count;
     }
 
+    /**
+     * 疫情有效期计算
+     * @param NCPStartDate
+     * @param NCPEndDate
+     * @return
+     * @throws ParseException
+     */
+    public static long Calculate(Date NCPStartDate,Date NCPEndDate) throws ParseException {
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        NCPStartDate=sdf.parse(sdf.format(NCPStartDate));
+
+        NCPEndDate=sdf.parse(sdf.format(NCPEndDate));
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(NCPStartDate);
+
+        long time1 = cal.getTimeInMillis();
+
+        cal.setTime(NCPEndDate);
+
+        long time2 = cal.getTimeInMillis();
+
+        long between_days=(time2-time1)/(1000*3600*24);
+
+        return between_days;
+
+    }
 }
