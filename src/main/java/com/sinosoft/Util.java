@@ -127,21 +127,21 @@ public class Util {
         //遍历保单起止日期数组
         for (List<Timestamp> timestamps : bigList) {
             //保单起期
-            long startDate = timestamps.get(0).getTime() / 1000;
+            long startDate = timestamps.get(0).getTime();
             //保单止期
-            long endDate = timestamps.get(1).getTime() / 1000;
+            long endDate = timestamps.get(1).getTime();
 
             long time = startDate;
             //判断保单止期是否是0点，若是零点，排除止期当天不算保期天数，反之算作保期天数
             if (timestamps.get(1).getHours()==0 && timestamps.get(1).getMinutes()==0 && timestamps.get(1).getSeconds()==0){
                 while (time<endDate){
-                    Timestamp timestamp = new Timestamp(time*1000);
+                    Timestamp timestamp = new Timestamp(time);
                     timestampSet.add(timestamp);
                     time += 86400;
                 }
             }else{
                 while (time<=endDate){
-                    Timestamp timestamp = new Timestamp(time*1000);
+                    Timestamp timestamp = new Timestamp(time);
                     timestampSet.add(timestamp);
                     time += 86400;
                 }
@@ -150,7 +150,7 @@ public class Util {
 
         //获取疫情起止日期内的有效天数
         for(Timestamp t:timestampSet){
-            long l = t.getTime()/1000;
+            long l = t.getTime();
             if(NCPStartDate<=l&&l<=NCPEndDate){
                 count=count+1;
             }
