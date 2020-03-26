@@ -14,7 +14,11 @@ import javax.swing.JTextArea;
 public class SinosoftIa implements SinosoftInterface{
 
 	public void SituationOne(Date start, Date end, JTextArea textArea, String areaCode) {
-		// TODO Auto-generated method stub
+		//获取疫情起止日期
+		long NCPStartDate = start.getTime();
+        long NCPEndDate = end.getTime();
+        //查询满足条件的疫情期本保单信息数据
+        List<IACMain_NCPB> iacMain_ncpbs = new ArrayList<IACMain_NCPB>();
 		
 	}
 
