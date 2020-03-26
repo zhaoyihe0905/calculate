@@ -11,28 +11,29 @@ import java.util.Properties;
  */
 public class JDBCUtil {
 
-    private static String driver="com.ibm.db2.jcc.DB2Driver";
-    private static String url="jdbc:db2://172.20.223.63:50000/iaci42db";
-    private static String username="instiaci";
-    private static String password="password";
+    private static String driver="";
+    private static String url="";
+    private static String username="";
+    private static String password="";
 
     //静态代码块，在程序编译的时候执行
     static {
         try {
-          /*  //创建Properties对象
+           //创建Properties对象
             Properties p = new Properties();
             //获取文件输入流
-            InputStream in = new FileInputStream("calculate\\src\\main\\resources\\db.properties");
+            InputStream in = JDBCUtil.class.getClassLoader().getResourceAsStream("com/config/db.properties");
+            /*InputStream in = new FileInputStream("com/db.properties");*/
             //加载输入流
             p.load(in);
             //获取数据库连接驱动名字
-            driver = p.getProperty("driverClassName",null);
+            driver = p.getProperty("driverClassName");
             //获取数据库连接地址
-            url = p.getProperty("url",null);
+            url = p.getProperty("url");
             //获取数据库连接用户名
-            username = p.getProperty("username",null);
+            username = p.getProperty("username");
             //获取数据库连接密码
-            password = p.getProperty("password",null);*/
+            password = p.getProperty("password");
             if(driver != null && url != null
                     && username != null && password != null){
                 //加载驱动

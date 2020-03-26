@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
 	 * 疫情止期
 	 */
 	JTextPane textPane_1 = new JTextPane();
-	
+
 	//日志对象
 	JTextArea textArea = new JTextArea();
 	/**
@@ -89,40 +89,40 @@ public class MainFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		textField = new JTextField();
 		textField.setText("2020-03-01 00:00:00");
 		textField.setBounds(137, 37, 148, 24);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		textField_2 = new JTextField();
 		textField_2.setText("2020-03-01 00:00:00");
 		textField_2.setColumns(10);
 		textField_2.setBounds(137, 74, 148, 24);
 		contentPane.add(textField_2);
-		
+
 
 		textPane.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane.setBackground(new Color(255, 255, 255));
 		textPane.setText("疫情起期");
 		textPane.setBounds(40, 37, 96, 24);
 		contentPane.add(textPane);
-		
+
 
 		textPane_1.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_1.setBackground(new Color(255, 255, 255));
 		textPane_1.setText("疫情止期");
 		textPane_1.setBounds(40, 74, 96, 24);
 		contentPane.add(textPane_1);
-		
+
 
 		comboBox.setBackground(new Color(255, 255, 255));
 		comboBox.setBounds(437, 37, 113, 24);
 		//初始化下拉菜单栏
 		this.initComboBox(comboBox);
 		contentPane.add(comboBox);
-		
+
 		JButton btnNewButton = new JButton("执行");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame {
 				//疫情止期
 				String end = textField_2.getText();
 				//地区
-				String areaCode = ((String)comboBox.getSelectedItem()).substring(0, 6);
+				String areaCode = ((String)comboBox.getSelectedItem());
 				//校验
 				if(MainFrame.validFormat(start,end,areaCode)){
 					//校验通过，开始执行业务
@@ -148,40 +148,40 @@ public class MainFrame extends JFrame {
 						// TODO: handle exception
 					}
 					SinosoftIa ia = new SinosoftIa();
-					ia.SituationOne(startDate, endDate, textArea, areaCode);
-					ia.SituationTwo(startDate, endDate, textArea, areaCode);
-					ia.SituationTree(startDate, endDate, textArea, areaCode);
-					
+					ia.SituationOne(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ia.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ia.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));
+
 				}
-				
-				
+
+
 			}
 		});
 		btnNewButton.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		btnNewButton.setBounds(137, 131, 113, 27);
 		contentPane.add(btnNewButton);
-		
+
 		JTextPane textPane_2 = new JTextPane();
 		textPane_2.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_2.setBackground(new Color(255, 255, 255));
 		textPane_2.setText("地市选择");
 		textPane_2.setBounds(341, 37, 96, 24);
 		contentPane.add(textPane_2);
-		
+
 		JTextPane textPane_3 = new JTextPane();
 		textPane_3.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_3.setBackground(new Color(255, 255, 255));
 		textPane_3.setText("交强险");
 		textPane_3.setBounds(44, 134, 92, 24);
 		contentPane.add(textPane_3);
-		
+
 		JTextPane textPane_4 = new JTextPane();
 		textPane_4.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_4.setBackground(new Color(255, 255, 255));
 		textPane_4.setText("商业险");
 		textPane_4.setBounds(345, 134, 92, 24);
 		contentPane.add(textPane_4);
-		
+
 		JButton button_4 = new JButton("执行");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -192,7 +192,7 @@ public class MainFrame extends JFrame {
 				//疫情止期
 				String end = textField_2.getText();
 				//地区
-				String areaCode = ((String)comboBox.getSelectedItem()).substring(0, 6);
+				String areaCode = ((String)comboBox.getSelectedItem());
 				//校验
 				if(MainFrame.validFormat(start,end,areaCode)){
 					//校验通过，开始执行业务
@@ -207,9 +207,9 @@ public class MainFrame extends JFrame {
 						// TODO: handle exception
 					}
 					SinosoftCa ca = new SinosoftCa();
-					ca.SituationOne(startDate, endDate, textArea, areaCode);
-					ca.SituationTwo(startDate, endDate, textArea, areaCode);
-					ca.SituationTree(startDate, endDate, textArea, areaCode);
+					ca.SituationOne(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ca.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ca.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));
 				}
 			}
 		});
@@ -217,7 +217,7 @@ public class MainFrame extends JFrame {
 		button_4.setBounds(437, 131, 113, 27);
 		contentPane.add(button_4);
 		textArea.setFont(new Font("黑体", Font.PLAIN, 16));
-		
+
 		textArea.setForeground(Color.BLACK);
 		textArea.setBackground(Color.WHITE);
 		textArea.setBounds(44, 190, 541, 89);
@@ -246,8 +246,8 @@ public class MainFrame extends JFrame {
 		comboBox.addItem("---请选择---");
 		Set<Entry<Object, Object>> propSet= prop.entrySet();
 		for(Entry<Object, Object> entrty:propSet ){
-			comboBox.addItem(entrty.getKey()+"-"+entrty.getValue());		
-		}	
+			comboBox.addItem(entrty.getKey()+"-"+entrty.getValue());
+		}
 		textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:地区初始化完成"+"\n");
 	}
 	public static Boolean validFormat(String start,String end,String areaCode){
