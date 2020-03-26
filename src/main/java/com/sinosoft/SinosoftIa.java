@@ -3,6 +3,8 @@ package com.sinosoft;
 import com.CI.IACMain_NCPB;
 import com.CI.IACMain_NCPPostpone;
 import com.CI.IACMain_NCPX;
+import com.sinosoft.jdbc.BeanListHandler;
+import com.sinosoft.jdbc.CRUDTemplate;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,7 +26,9 @@ public class SinosoftIa implements SinosoftInterface{
 		int tag =0;
 		//查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
 		//模拟获取到的本保单集合
-		List<IACMain_NCPB> iacMain_ncpbs = new ArrayList<IACMain_NCPB>();
+        String IACMain_NCPBsql ="select * from INSTIACI.IACMain_NCPB where CityCode = ? and BusinessType= ? and Reason = ? and Flag = ?";
+        List<IACMain_NCPB> iacMain_ncpbs = (List<IACMain_NCPB>)CRUDTemplate.executeQuery(IACMain_NCPBsql, new BeanListHandler(IACMain_NCPB.class), areaCode, "2", "","");
+
 		//遍历数据
 		for (IACMain_NCPB iacMain_ncpb : iacMain_ncpbs) {
 			//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，根据此情况进行业务判断

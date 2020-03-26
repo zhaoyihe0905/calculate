@@ -14,7 +14,7 @@ import java.util.*;
 public class Util {
 
     /**
-     * ��ǿ-�Ա������ڣ�˳������
+     * 交强-以保单起期，顺序排序
      * @param list
      */
     public static void ciStartTimeSort(List<IACMain_NCPX> list) {
@@ -38,7 +38,7 @@ public class Util {
     }
 
     /**
-     * ��ǿ-�Ա���ֹ�ڣ���������
+     * 交强-以保单止期，倒序排序
      * @param list
      */
     public static void ciEndTimeReverse(List<IACMain_NCPX> list) {
@@ -65,7 +65,7 @@ public class Util {
 
 
     /**
-     * ��ҵ-�Ա������ڣ�˳������
+     * 商业-以保单起期，顺序排序
      * @param list
      */
     public static void caStartTimeSort(List<CACMain_NCPX> list) {
@@ -89,7 +89,7 @@ public class Util {
     }
 
     /**
-     * ��ҵ-�Ա���ֹ�ڣ���������
+     * 商业-以保单止期，倒序排序
      * @param list
      */
     public static void caEndTimeReverse(List<CACMain_NCPX> list) {

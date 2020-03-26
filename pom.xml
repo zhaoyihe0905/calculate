@@ -8,5 +8,22 @@
     <artifactId>calculate</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>db2jcc</artifactId>
+            <version>8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
