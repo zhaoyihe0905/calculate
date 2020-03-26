@@ -11,10 +11,16 @@ import java.util.Properties;
  */
 public class JDBCUtil {
 
-    private static String driver="";
-    private static String url="";
-    private static String username="";
-    private static String password="";
+    private static String driver;
+
+    private static String ciUrl;
+    private static String ciUsername;
+    private static String ciPassword;
+
+
+    private static String caUrl;
+    private static String caUsername;
+    private static String caPassword;
 
     //静态代码块，在程序编译的时候执行
     static {
@@ -27,15 +33,25 @@ public class JDBCUtil {
             //加载输入流
             p.load(in);
             //获取数据库连接驱动名字
-            driver = p.getProperty("driverClassName");
+            driver = p.getProperty("riverClassName");
             //获取数据库连接地址
-            url = p.getProperty("url");
+            ciUrl = p.getProperty("ciUrl");
             //获取数据库连接用户名
-            username = p.getProperty("username");
+            ciUsername = p.getProperty("ciUsername");
             //获取数据库连接密码
-            password = p.getProperty("password");
-            if(driver != null && url != null
-                    && username != null && password != null){
+            ciPassword = p.getProperty("ciPassword");
+
+
+            //获取数据库连接地址
+            caUrl = p.getProperty("caUrl");
+            //获取数据库连接用户名
+            caUsername = p.getProperty("caUsername");
+            //获取数据库连接密码
+            caPassword = p.getProperty("caPassword");
+
+            if(driver != null
+                    && ciUrl != null && ciUsername != null && ciPassword != null
+                    && caUrl != null && caUsername != null && caPassword != null){
                 //加载驱动
                 Class.forName(driver);
             }
@@ -48,13 +64,24 @@ public class JDBCUtil {
      * 获取连接对象
      * @return Connection连接对象
      */
-    public static Connection getConn(){
+    public static Connection getConn(String dataSource){
         Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url,username,password);
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+
+        if (dataSource.equals("ci")){
+            try {
+                conn = DriverManager.getConnection(ciUrl,ciUsername,ciPassword);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else if (dataSource.equals("ca")){
+            try {
+                conn = DriverManager.getConnection(caUrl,caUsername,caPassword);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
         return conn;
     }
 

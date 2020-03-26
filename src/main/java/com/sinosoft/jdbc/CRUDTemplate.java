@@ -12,17 +12,18 @@ import java.sql.SQLException;
 public class CRUDTemplate {
     /**
      * 增删改操作
+     * @param dataSource 区分交强：ci 商业：ca
      * @param sql 传入的SQL语句
      * @param params 可变参数
      * @return 操作结果
      */
-    public static int executeUpdate(String sql,Object... params){
+    public static int executeUpdate(String dataSource,String sql,Object... params){
         Connection conn = null;
         PreparedStatement psmt = null;
         int result = 0;
         try {
             //获取数据库连接对象
-            conn = JDBCUtil.getConn();
+            conn = JDBCUtil.getConn(dataSource);
             //获取预编译语句对象
             psmt = conn.prepareStatement(sql);
             //给预编译语句赋值
@@ -42,19 +43,20 @@ public class CRUDTemplate {
 
     /**
      * 查询操作
+     * @param dataSource 区分交强：ci 商业：ca
      * @param sql SQL语句
      * @param handler 判断查询一个还是多个
      * @param params 可变参数
      * @param <T> 具体操作的实体类
      * @return 返回IResultSetHandler接口中的泛型
      */
-    public static <T> T executeQuery(String sql, IResultSetHandler<T> handler,Object... params){
+    public static <T> T executeQuery(String dataSource,String sql, IResultSetHandler<T> handler,Object... params){
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
         try {
             //获取数据库连接对象
-            conn = JDBCUtil.getConn();
+            conn = JDBCUtil.getConn(dataSource);
             //获取预编译语句对象
             psmt = conn.prepareStatement(sql);
             //给预编译语句赋值

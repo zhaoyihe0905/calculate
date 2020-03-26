@@ -33,13 +33,13 @@ public class SinosoftIa implements SinosoftInterface{
 		//查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
 		//模拟获取到的本保单集合
         String IACMain_NCPBsql ="select * from INSTIACI.IACMain_NCPB where CityCode = ? and BusinessType= ? and Reason = ? and Flag = ?";
-        List<IACMain_NCPB> iacMain_ncpbs = (List<IACMain_NCPB>)CRUDTemplate.executeQuery(IACMain_NCPBsql, new BeanListHandler(IACMain_NCPB.class), areaCode, "2", "","");
+        List<IACMain_NCPB> iacMain_ncpbs = (List<IACMain_NCPB>)CRUDTemplate.executeQuery("ci",IACMain_NCPBsql, new BeanListHandler(IACMain_NCPB.class), areaCode, "2", "","");
 
 		//遍历数据
 		for (IACMain_NCPB iacMain_ncpb : iacMain_ncpbs) {
 			//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，止期倒叙排序，根据此情况进行业务判断
 			String selectSql1="select * from IACMain_NCPX where LastPoliConfirmNo = ? order by enddate desc";
-			List<IACMain_NCPX> iacMain_ncpxs = (List<IACMain_NCPX>)CRUDTemplate.executeQuery(selectSql1,new BeanListHandler(IACMain_NCPX.class),iacMain_ncpb.getPolicyConfirmNo());
+			List<IACMain_NCPX> iacMain_ncpxs = (List<IACMain_NCPX>)CRUDTemplate.executeQuery("ci",selectSql1,new BeanListHandler(IACMain_NCPX.class),iacMain_ncpb.getPolicyConfirmNo());
 			//判断:一、无续保单
 			if (iacMain_ncpxs == null||iacMain_ncpxs.size()==0) {
 				//疫情有效期
@@ -91,7 +91,7 @@ public class SinosoftIa implements SinosoftInterface{
 				String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
 						" NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
 						"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-				int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpb.getPolicyConfirmNo(),
+				int i = CRUDTemplate.executeUpdate("ci",insertSql, iacMain_ncpb.getPolicyConfirmNo(),
 						iacMain_ncpb.getPolicyNo(),
 						iacMain_ncpb.getCompanyCode(),
 						iacMain_ncpb.getStartDate(),
@@ -165,7 +165,7 @@ public class SinosoftIa implements SinosoftInterface{
 					String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
 							" NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
 							"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-					int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpb.getPolicyConfirmNo(),
+					int i = CRUDTemplate.executeUpdate("ci",insertSql, iacMain_ncpb.getPolicyConfirmNo(),
 							iacMain_ncpb.getPolicyNo(),
 							iacMain_ncpb.getCompanyCode(),
 							iacMain_ncpb.getStartDate(),
@@ -225,7 +225,7 @@ public class SinosoftIa implements SinosoftInterface{
 					String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
 							" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPoliConfirmNo,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
 							"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-					int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpxs.get(0).getPolicyConfirmNo(),
+					int i = CRUDTemplate.executeUpdate("ci",insertSql, iacMain_ncpxs.get(0).getPolicyConfirmNo(),
 							iacMain_ncpxs.get(0).getPolicyNo(),
 							iacMain_ncpxs.get(0).getCompanyCode(),
 							iacMain_ncpxs.get(0).getStartDate(),
