@@ -7,6 +7,7 @@ import com.sinosoft.jdbc.BeanListHandler;
 import com.sinosoft.jdbc.CRUDTemplate;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ public class SinosoftIa implements SinosoftInterface{
 	}
 
 	public void SituationTwo(Date start, Date end, JTextArea textArea, String areaCode) {
+		textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:业务类型2，业务计算方法处理开始-----------");
         long NCPStartDate = start.getTime();
         long NCPEndDate = end.getTime();
 		int tag =0;
@@ -35,9 +37,9 @@ public class SinosoftIa implements SinosoftInterface{
 
 		//遍历数据
 		for (IACMain_NCPB iacMain_ncpb : iacMain_ncpbs) {
-			//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，根据此情况进行业务判断
-			//模拟获取到的续保单集合，此保单集合根据保单止期，倒叙排序，
-			List<IACMain_NCPX> iacMain_ncpxs = new ArrayList<IACMain_NCPX>();
+			//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，止期倒叙排序，根据此情况进行业务判断
+			String selectSql1="select * from IACMain_NCPX where LastPoliConfirmNo = ? order by enddate desc";
+			List<IACMain_NCPX> iacMain_ncpxs = (List<IACMain_NCPX>)CRUDTemplate.executeQuery(selectSql1,new BeanListHandler(IACMain_NCPX.class),iacMain_ncpb.getPolicyConfirmNo());
 			//判断:一、无续保单
 			if (iacMain_ncpxs == null||iacMain_ncpxs.size()==0) {
 				//疫情有效期
@@ -66,27 +68,46 @@ public class SinosoftIa implements SinosoftInterface{
 				long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400;
 
 				//组织参数存库 疫情期顺延后保单信息表
-				IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
-				ncpPostpone.setPolicyConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
-				ncpPostpone.setPolicyNo(iacMain_ncpb.getPolicyNo());
-				ncpPostpone.setCompanyCode(iacMain_ncpb.getCompanyCode());
-				ncpPostpone.setStartDate(iacMain_ncpb.getStartDate());
-				ncpPostpone.setEndDate(iacMain_ncpb.getEndDate());
-				ncpPostpone.setAfterEndDate(AfterEndDate);
+//				IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
+//				ncpPostpone.setPolicyConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
+//				ncpPostpone.setPolicyNo(iacMain_ncpb.getPolicyNo());
+//				ncpPostpone.setCompanyCode(iacMain_ncpb.getCompanyCode());
+//				ncpPostpone.setStartDate(iacMain_ncpb.getStartDate());
+//				ncpPostpone.setEndDate(iacMain_ncpb.getEndDate());
+//				ncpPostpone.setAfterEndDate(AfterEndDate);
 				Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-				ncpPostpone.setNCPStartDate(ncpStartDate);
+//				ncpPostpone.setNCPStartDate(ncpStartDate);
 				Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-				ncpPostpone.setNCPEndDate(ncpEndDate);
-				ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-				ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-				ncpPostpone.setCityCode(iacMain_ncpb.getCityCode());
-				ncpPostpone.setFrameNo(iacMain_ncpb.getFrameNo());
-				ncpPostpone.setLicenseNo(iacMain_ncpb.getLicenseNo());
-				ncpPostpone.setEngineNo(iacMain_ncpb.getEngineNo());
-				ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
-				ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-				ncpPostpone.setValidStatus("1");
-
+//				ncpPostpone.setNCPEndDate(ncpEndDate);
+//				ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
+//				ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
+//				ncpPostpone.setCityCode(iacMain_ncpb.getCityCode());
+//				ncpPostpone.setFrameNo(iacMain_ncpb.getFrameNo());
+//				ncpPostpone.setLicenseNo(iacMain_ncpb.getLicenseNo());
+//				ncpPostpone.setEngineNo(iacMain_ncpb.getEngineNo());
+//				ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
+//				ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
+//				ncpPostpone.setValidStatus("1");
+				String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
+						" NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
+						"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+				int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpb.getPolicyConfirmNo(),
+						iacMain_ncpb.getPolicyNo(),
+						iacMain_ncpb.getCompanyCode(),
+						iacMain_ncpb.getStartDate(),
+						iacMain_ncpb.getEndDate(),
+						AfterEndDate,
+						ncpStartDate,
+						ncpEndDate,
+						Integer.parseInt(String.valueOf(NCPValidDate)),
+						Integer.parseInt(String.valueOf(PostponeDay)),
+						iacMain_ncpb.getCityCode(),
+						iacMain_ncpb.getFrameNo(),
+						iacMain_ncpb.getLicenseNo(),
+						iacMain_ncpb.getEngineNo(),
+						iacMain_ncpb.getBusinessType(),
+						new Timestamp(System.currentTimeMillis()), "1");
+				tag+=1;
 
 			}else{  //二、有续保单
 
@@ -120,26 +141,47 @@ public class SinosoftIa implements SinosoftInterface{
 					long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400;
 
 					//组织参数存库 疫情期顺延后保单信息表
-					IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
-					ncpPostpone.setPolicyConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
-					ncpPostpone.setPolicyNo(iacMain_ncpb.getPolicyNo());
-					ncpPostpone.setCompanyCode(iacMain_ncpb.getCompanyCode());
-					ncpPostpone.setStartDate(iacMain_ncpb.getStartDate());
-					ncpPostpone.setEndDate(iacMain_ncpb.getEndDate());
-					ncpPostpone.setAfterEndDate(AfterEndDate);
+//					IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
+//					ncpPostpone.setPolicyConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
+//					ncpPostpone.setPolicyNo(iacMain_ncpb.getPolicyNo());
+//					ncpPostpone.setCompanyCode(iacMain_ncpb.getCompanyCode());
+//					ncpPostpone.setStartDate(iacMain_ncpb.getStartDate());
+//					ncpPostpone.setEndDate(iacMain_ncpb.getEndDate());
+//					ncpPostpone.setAfterEndDate(AfterEndDate);
 					Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-					ncpPostpone.setNCPStartDate(ncpStartDate);
+//					ncpPostpone.setNCPStartDate(ncpStartDate);
 					Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-					ncpPostpone.setNCPEndDate(ncpEndDate);
-					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-					ncpPostpone.setCityCode(iacMain_ncpb.getCityCode());
-					ncpPostpone.setFrameNo(iacMain_ncpb.getFrameNo());
-					ncpPostpone.setLicenseNo(iacMain_ncpb.getLicenseNo());
-					ncpPostpone.setEngineNo(iacMain_ncpb.getEngineNo());
-					ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
-					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-					ncpPostpone.setValidStatus("1");
+//					ncpPostpone.setNCPEndDate(ncpEndDate);
+//					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
+//					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
+//					ncpPostpone.setCityCode(iacMain_ncpb.getCityCode());
+//					ncpPostpone.setFrameNo(iacMain_ncpb.getFrameNo());
+//					ncpPostpone.setLicenseNo(iacMain_ncpb.getLicenseNo());
+//					ncpPostpone.setEngineNo(iacMain_ncpb.getEngineNo());
+//					ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
+//					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
+//					ncpPostpone.setValidStatus("1");
+
+					String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
+							" NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
+							"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+					int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpb.getPolicyConfirmNo(),
+							iacMain_ncpb.getPolicyNo(),
+							iacMain_ncpb.getCompanyCode(),
+							iacMain_ncpb.getStartDate(),
+							iacMain_ncpb.getEndDate(),
+							AfterEndDate,
+							ncpStartDate,
+							ncpEndDate,
+							Integer.parseInt(String.valueOf(NCPValidDate)),
+							Integer.parseInt(String.valueOf(PostponeDay)),
+							iacMain_ncpb.getCityCode(),
+							iacMain_ncpb.getFrameNo(),
+							iacMain_ncpb.getLicenseNo(),
+							iacMain_ncpb.getEngineNo(),
+							iacMain_ncpb.getBusinessType(),
+							new Timestamp(System.currentTimeMillis()), "1");
+					tag+=1;
 
 				}else{
 					//以保单止期，倒序排序，找到最靠后一张续保单
@@ -158,36 +200,57 @@ public class SinosoftIa implements SinosoftInterface{
 					long PostponeDay = (l - iacMain_ncpxs.get(0).getEndDate().getTime()) / 86400;
 
 					//组织参数存库 疫情期顺延后保单信息表
-					IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
-					ncpPostpone.setPolicyConfirmNo(iacMain_ncpxs.get(0).getPolicyConfirmNo());
-					ncpPostpone.setPolicyNo(iacMain_ncpxs.get(0).getPolicyNo());
-					ncpPostpone.setCompanyCode(iacMain_ncpxs.get(0).getCompanyCode());
-					ncpPostpone.setStartDate(iacMain_ncpxs.get(0).getStartDate());
-					ncpPostpone.setEndDate(iacMain_ncpxs.get(0).getEndDate());
-					ncpPostpone.setAfterEndDate(AfterEndDate);
+//					IACMain_NCPPostpone ncpPostpone = new IACMain_NCPPostpone();
+//					ncpPostpone.setPolicyConfirmNo(iacMain_ncpxs.get(0).getPolicyConfirmNo());
+//					ncpPostpone.setPolicyNo(iacMain_ncpxs.get(0).getPolicyNo());
+//					ncpPostpone.setCompanyCode(iacMain_ncpxs.get(0).getCompanyCode());
+//					ncpPostpone.setStartDate(iacMain_ncpxs.get(0).getStartDate());
+//					ncpPostpone.setEndDate(iacMain_ncpxs.get(0).getEndDate());
+//					ncpPostpone.setAfterEndDate(AfterEndDate);
 					Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-					ncpPostpone.setNCPStartDate(ncpStartDate);
+//					ncpPostpone.setNCPStartDate(ncpStartDate);
 					Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-					ncpPostpone.setNCPEndDate(ncpEndDate);
-					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-					ncpPostpone.setCityCode(iacMain_ncpxs.get(0).getCityCode());
-					ncpPostpone.setLastPoliConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
-					ncpPostpone.setFrameNo(iacMain_ncpxs.get(0).getFrameNo());
-					ncpPostpone.setLicenseNo(iacMain_ncpxs.get(0).getLicenseNo());
-					ncpPostpone.setEngineNo(iacMain_ncpxs.get(0).getEngineNo());
-					ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
-					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-					ncpPostpone.setValidStatus("1");
+//					ncpPostpone.setNCPEndDate(ncpEndDate);
+//					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
+//					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
+//					ncpPostpone.setCityCode(iacMain_ncpxs.get(0).getCityCode());
+//					ncpPostpone.setLastPoliConfirmNo(iacMain_ncpb.getPolicyConfirmNo());
+//					ncpPostpone.setFrameNo(iacMain_ncpxs.get(0).getFrameNo());
+//					ncpPostpone.setLicenseNo(iacMain_ncpxs.get(0).getLicenseNo());
+//					ncpPostpone.setEngineNo(iacMain_ncpxs.get(0).getEngineNo());
+//					ncpPostpone.setBusinessType(iacMain_ncpb.getBusinessType());
+//					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
+//					ncpPostpone.setValidStatus("1");
 
+					String insertSql="insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
+							" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPoliConfirmNo,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
+							"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+					int i = CRUDTemplate.executeUpdate(insertSql, iacMain_ncpxs.get(0).getPolicyConfirmNo(),
+							iacMain_ncpxs.get(0).getPolicyNo(),
+							iacMain_ncpxs.get(0).getCompanyCode(),
+							iacMain_ncpxs.get(0).getStartDate(),
+							iacMain_ncpxs.get(0).getEndDate(),
+							AfterEndDate,
+							ncpStartDate,
+							ncpEndDate,
+							Integer.parseInt(String.valueOf(NCPValidDate)),
+							Integer.parseInt(String.valueOf(PostponeDay)),
+							iacMain_ncpxs.get(0).getCityCode(),
+							iacMain_ncpb.getPolicyConfirmNo(),
+							iacMain_ncpxs.get(0).getFrameNo(),
+							iacMain_ncpxs.get(0).getLicenseNo(),
+							iacMain_ncpxs.get(0).getEngineNo(),
+							iacMain_ncpb.getBusinessType(),
+							new Timestamp(System.currentTimeMillis()), "1");
 
+					tag+=1;
 				}
 
 			}
 
 		}
 
-		
+		textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:业务类型2，业务计算方法处理结束-----------处理数据量："+tag);
 	}
 
 	public void SituationTree(Date start, Date end, JTextArea textArea, String areaCode) {
