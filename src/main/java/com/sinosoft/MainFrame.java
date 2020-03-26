@@ -147,10 +147,11 @@ public class MainFrame extends JFrame {
 					} catch (Exception e2) {
 						// TODO: handle exception
 					}
-					SinosoftCa ca = new SinosoftCa();
-					ca.SituationOne(startDate, endDate, textArea, areaCode);
-					ca.SituationTwo(startDate, endDate, textArea, areaCode);
-					ca.SituationTree(startDate, endDate, textArea, areaCode);
+					SinosoftIa ia = new SinosoftIa();
+					ia.SituationOne(startDate, endDate, textArea, areaCode);
+					ia.SituationTwo(startDate, endDate, textArea, areaCode);
+					ia.SituationTree(startDate, endDate, textArea, areaCode);
+					
 				}
 				
 				
@@ -205,10 +206,10 @@ public class MainFrame extends JFrame {
 					} catch (Exception e2) {
 						// TODO: handle exception
 					}
-					SinosoftIa ia = new SinosoftIa();
-					ia.SituationOne(startDate, endDate, textArea, areaCode);
-					ia.SituationTwo(startDate, endDate, textArea, areaCode);
-					ia.SituationTree(startDate, endDate, textArea, areaCode);
+					SinosoftCa ca = new SinosoftCa();
+					ca.SituationOne(startDate, endDate, textArea, areaCode);
+					ca.SituationTwo(startDate, endDate, textArea, areaCode);
+					ca.SituationTree(startDate, endDate, textArea, areaCode);
 				}
 			}
 		});

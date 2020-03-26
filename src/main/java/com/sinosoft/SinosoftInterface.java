@@ -7,27 +7,27 @@ import javax.swing.JTextArea;
 public interface SinosoftInterface {
 	
 	/**
-	 * ÒßÇéÇé¿öÒ»
-	 * @param start ÒßÇéÆðÆÚ
-	 * @param end ÒßÇéÖ¹ÆÚ
-	 * @param textArea ÈÕÖ¾¶ÔÏó
-	 * @param areaCode µØÇø´úÂë
+	 * ç–«æƒ…æƒ…å†µä¸€
+	 * @param start ç–«æƒ…èµ·æœŸ
+	 * @param end ç–«æƒ…æ­¢æœŸ
+	 * @param textArea æ—¥å¿—å¯¹è±¡
+	 * @param areaCode åœ°åŒºä»£ç 
 	 */
 	public void SituationOne(Date start,Date end,JTextArea textArea,String areaCode);
 	/**
-	 * ÒßÇéÇé¿ö¶þ
-	 * @param start ÒßÇéÆðÆÚ
-	 * @param end ÒßÇéÖ¹ÆÚ
-	 * @param textArea ÈÕÖ¾¶ÔÏó
-	 * @param areaCode µØÇø´úÂë
+	 * ç–«æƒ…æƒ…å†µä¸€
+	 * @param start ç–«æƒ…èµ·æœŸ
+	 * @param end ç–«æƒ…æ­¢æœŸ
+	 * @param textArea æ—¥å¿—å¯¹è±¡
+	 * @param areaCode åœ°åŒºä»£ç 
 	 */
 	public void SituationTwo(Date start,Date end,JTextArea textArea,String areaCode);
 	/**
-	 * ÒßÇéÇé¿öÈý
-	 * @param start ÒßÇéÆðÆÚ
-	 * @param end ÒßÇéÖ¹ÆÚ
-	 * @param textArea ÈÕÖ¾¶ÔÏó
-	 * @param areaCode µØÇø´úÂë
+	 * ç–«æƒ…æƒ…å†µä¸€
+	 * @param start ç–«æƒ…èµ·æœŸ
+	 * @param end ç–«æƒ…æ­¢æœŸ
+	 * @param textArea æ—¥å¿—å¯¹è±¡
+	 * @param areaCode åœ°åŒºä»£ç 
 	 */
 	public void SituationTree(Date start,Date end,JTextArea textArea,String areaCode);
 }
