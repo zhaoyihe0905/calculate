@@ -19,8 +19,8 @@ public class SinosoftCa implements SinosoftInterface{
 	public void SituationOne(Date start, Date end, JTextArea textArea, String areaCode) {
 		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型1，业务计算方法处理开始-----------");
 		//获取疫情起止日期
-		long NCPStartDate = start.getTime();
-		long NCPEndDate = end.getTime();
+		long NCPStartDate = start.getTime()/1000;
+		long NCPEndDate = end.getTime()/1000;
 		int tag = 0;
 		int error = 0;
 		//查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
