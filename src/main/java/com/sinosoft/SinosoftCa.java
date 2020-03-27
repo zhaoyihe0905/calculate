@@ -579,8 +579,8 @@ public class SinosoftCa implements SinosoftInterface{
 					Timestamp AfterExpireDate=null;
 					//以保单起期，顺序排序，找到第一张续保单
 					Util.caStartTimeSort(cacMain_ncpxs);
-					//特殊情况：有一张起保日期＞疫情止期的续保单，续保单起保日期-疫情止期≥N；顺延本保单
-					if(cacMain_ncpxs.get(0).getEffectiveDate().getTime()>NCPEndDate && ((cacMain_ncpxs.get(0).getEffectiveDate().getTime()-NCPEndDate)>NCPValidDate) ){
+					//特殊情况：续保单起保日期-本保单止期≥N；顺延本保单
+					if((cacMain_ncpxs.get(0).getEffectiveDate().getTime()-cacMain_ncpb.getExpireDate().getTime())>=NCPValidDate ){
 						try {
 							//顺延后保单止期
 							l=cacMain_ncpb.getExpireDate().getTime()+(NCPValidDate*86400);

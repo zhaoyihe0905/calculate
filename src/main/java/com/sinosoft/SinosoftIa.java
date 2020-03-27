@@ -583,8 +583,8 @@ public class SinosoftIa implements SinosoftInterface{
                     Timestamp AfterEndDate=null;
                     //以保单起期，顺序排序，找到第一张续保单
                     Util.ciStartTimeSort(iacMain_ncpxs);
-                    //特殊情况：有一张起保日期＞疫情止期的续保单，续保单起保日期-疫情止期≥N；顺延本保单
-                    if(iacMain_ncpxs.get(0).getStartDate().getTime()>NCPEndDate && ((iacMain_ncpxs.get(0).getStartDate().getTime()-NCPEndDate)>NCPValidDate) ){
+                    //特殊情况：续保单起保日期-本保单止期≥N；顺延本保单
+                    if((iacMain_ncpxs.get(0).getStartDate().getTime()-iacMain_ncpb.getEndDate().getTime())>=NCPValidDate ){
                         try {
                             //顺延后保单止期
                             l=iacMain_ncpb.getEndDate().getTime()+(NCPValidDate*86400);
