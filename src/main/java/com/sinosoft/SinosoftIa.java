@@ -180,7 +180,7 @@ public class SinosoftIa implements SinosoftInterface{
                         }else if(iacMain_ncpxs.get(0).getStartDate().getTime()>NCPEndDate){
                             //最靠前续保保单起期-疫情截止日天数
                             long days = (iacMain_ncpxs.get(0).getStartDate().getTime()-NCPEndDate)/86400;
-                            if(days>NCPValidDate){
+                            if(days>=NCPValidDate){
                                 //顺延本保单保险止期
                                 //本保单顺延后止期=疫情截止日+疫情期间有效保期。
                                 l = NCPEndDate + (NCPValidDate*86400);
@@ -210,7 +210,7 @@ public class SinosoftIa implements SinosoftInterface{
                                         new Timestamp(System.currentTimeMillis()), "1");
                                 tag += 1;
                              //（续保保单起期-疫情截止日天数）<=疫情期间有效保期 顺延续保保单中最靠后一张续保保单的止期
-                            }else if(days<=NCPValidDate){
+                            }else if(days<NCPValidDate){
                                 Util.ciEndTimeReverse(iacMain_ncpxs);
                                 //最靠后一张续保保单顺延后止期=原保险止期+疫情期间有效保期
                                 l = iacMain_ncpxs.get(0).getEndDate().getTime() +(NCPValidDate*86400);
