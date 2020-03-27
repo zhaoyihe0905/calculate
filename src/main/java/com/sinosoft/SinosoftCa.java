@@ -255,9 +255,9 @@ public class SinosoftCa implements SinosoftInterface{
 
 	public void SituationTwo(Date start, Date end, JTextArea textArea, String areaCode) {
 		if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
-			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理开始-----------");
-			long NCPStartDate = start.getTime();
-			long NCPEndDate = end.getTime();
+			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理开始-----------"+"\n");
+			long NCPStartDate = start.getTime()/1000;
+			long NCPEndDate = end.getTime()/1000;
 			int tag = 0;
 			int error = 0;
 			//查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
@@ -286,42 +286,24 @@ public class SinosoftCa implements SinosoftInterface{
 						//两种情况:1.保单保险止期小于疫情截止日
 						if (cacMain_ncpb.getExpireDate().getTime() < NCPEndDate) {
 							//顺延后保单止期:疫情止期+疫情有效期
-							l = NCPEndDate + (NCPValidDate * 86400);
+							l = NCPEndDate + (NCPValidDate * 86400000);
 							AfterExpireDate = new Timestamp(l);
 
 						} else {//2.保单保险止期>=疫情截止日
 							//顺延后保单止期:原保单止期+疫情有效期
-							l = cacMain_ncpb.getExpireDate().getTime() + (NCPValidDate * 86400);
+							l = cacMain_ncpb.getExpireDate().getTime() + (NCPValidDate * 86400000);
 							AfterExpireDate = new Timestamp(l);
 						}
 						//顺延天数：顺延后保单止期-原保单止期
-						long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400;
-
-						//组织参数存库 疫情期顺延后保单信息表
-//				CACMain_NCPPostpone ncpPostpone = new CACMain_NCPPostpone();
-//				ncpPostpone.setConfirmSequenceNo(cacMain_ncpb.getConfirmSequenceNo());
-//				ncpPostpone.setPolicyNo(cacMain_ncpb.getPolicyNo());
-//				ncpPostpone.setCompanyCode(cacMain_ncpb.getCompanyCode());
-//				ncpPostpone.setEffectiveDate(cacMain_ncpb.getEffectiveDate());
-//				ncpPostpone.setExpireDate(cacMain_ncpb.getExpireDate());
-//				ncpPostpone.setAfterExpireDate(AfterExpireDate);
-						Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-//				ncpPostpone.setNCPStartDate(ncpStartDate);
-						Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-//				ncpPostpone.setNCPEndDate(ncpEndDate);
-//				ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-//				ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-//				ncpPostpone.setCityCode(cacMain_ncpb.getCityCode());
-//				ncpPostpone.setVin(cacMain_ncpb.getVin());
-//				ncpPostpone.setLicenseNo(cacMain_ncpb.getLicenseNo());
-//				ncpPostpone.setEngineNo(cacMain_ncpb.getEngineNo());
-//				ncpPostpone.setBusinessType(cacMain_ncpb.getBusinessType());
-//				ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-//				ncpPostpone.setValidStatus("1");
+						long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400000;
+						//疫情起期
+						Timestamp ncpStartDate = new Timestamp(start.getTime());
+                        //疫情止期
+						Timestamp ncpEndDate = new Timestamp(end.getTime());
 
 						String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
 								" NCPEndDate,NCPValidDate,PostponeDay,CityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-								"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+								"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 						int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 								cacMain_ncpb.getPolicyNo(),
 								cacMain_ncpb.getCompanyCode(),
@@ -341,7 +323,7 @@ public class SinosoftCa implements SinosoftInterface{
 						tag += 1;
 
 					} catch(Exception e) {
-						textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常");
+						textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常"+"\n");
 						error+=1;
 					    e.getMessage();
 					}
@@ -373,35 +355,18 @@ public class SinosoftCa implements SinosoftInterface{
 					if ((cacMain_ncpb.getExpireDate().getTime() < NCPEndDate) && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > NCPEndDate && ((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - NCPEndDate) >= NCPValidDate)) {
 						try {
 							//顺延后保单止期
-							l = NCPEndDate + (NCPValidDate * 86400);
+							l = NCPEndDate + (NCPValidDate * 86400000);
 							AfterExpireDate = new Timestamp(l);
 							//顺延天数：顺延后保单止期-原保单止期
-							long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400;
+							long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400000;
+							//疫情起期
+							Timestamp ncpStartDate = new Timestamp(start.getTime());
+							//疫情止期
+							Timestamp ncpEndDate = new Timestamp(end.getTime());
 
-							//组织参数存库 疫情期顺延后保单信息表
-//					CACMain_NCPPostpone ncpPostpone = new CACMain_NCPPostpone();
-//					ncpPostpone.setConfirmSequenceNo(cacMain_ncpb.getConfirmSequenceNo());
-//					ncpPostpone.setPolicyNo(cacMain_ncpb.getPolicyNo());
-//					ncpPostpone.setCompanyCode(cacMain_ncpb.getCompanyCode());
-//					ncpPostpone.setEffectiveDate(cacMain_ncpb.getEffectiveDate());
-//					ncpPostpone.setExpireDate(cacMain_ncpb.getExpireDate());
-//					ncpPostpone.setAfterExpireDate(AfterExpireDate);
-							Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-//					ncpPostpone.setNCPStartDate(ncpStartDate);
-							Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-//					ncpPostpone.setNCPEndDate(ncpEndDate);
-//					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-//					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-//					ncpPostpone.setCityCode(cacMain_ncpb.getCityCode());
-//					ncpPostpone.setVin(cacMain_ncpb.getVin());
-//					ncpPostpone.setLicenseNo(cacMain_ncpb.getLicenseNo());
-//					ncpPostpone.setEngineNo(cacMain_ncpb.getEngineNo());
-//					ncpPostpone.setBusinessType(cacMain_ncpb.getBusinessType());
-//					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-//					ncpPostpone.setValidStatus("1");
 							String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
 									" NCPEndDate,NCPValidDate,PostponeDay,CityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-									"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+									"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 							int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 									cacMain_ncpb.getPolicyNo(),
 									cacMain_ncpb.getCompanyCode(),
@@ -421,7 +386,7 @@ public class SinosoftCa implements SinosoftInterface{
 							tag += 1;
 
 						} catch(Exception e) {
-							textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常");
+							textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常"+"\n");
 							error+=1;
 						    e.getMessage();
 						}
@@ -433,42 +398,23 @@ public class SinosoftCa implements SinosoftInterface{
 							//2种情况：1、最后一张续保单止期>=疫情截止日
 							if (cacMain_ncpxs.get(0).getExpireDate().getTime() >= NCPEndDate) {
 								//顺延后保单止期:最靠后一张续保单止期+疫情有效期
-								l = cacMain_ncpxs.get(0).getExpireDate().getTime() + (NCPValidDate * 86400);
+								l = cacMain_ncpxs.get(0).getExpireDate().getTime() + (NCPValidDate * 86400000);
 								AfterExpireDate = new Timestamp(l);
 							} else {//2、最后一张续保单止期<疫情截止日
 								//顺延后保单止期:疫情止期+疫情有效期
-								l = NCPEndDate + (NCPValidDate * 86400);
+								l = NCPEndDate + (NCPValidDate * 86400000);
 								AfterExpireDate = new Timestamp(l);
 							}
 							//顺延天数：顺延后保单止期-原最靠后一张续保单止期
-							long PostponeDay = (l - cacMain_ncpxs.get(0).getExpireDate().getTime()) / 86400;
-
-							//组织参数存库 疫情期顺延后保单信息表
-//					CACMain_NCPPostpone ncpPostpone = new CACMain_NCPPostpone();
-//					ncpPostpone.setConfirmSequenceNo(cacMain_ncpxs.get(0).getConfirmSequenceNo());
-//					ncpPostpone.setPolicyNo(cacMain_ncpxs.get(0).getPolicyNo());
-//					ncpPostpone.setCompanyCode(cacMain_ncpxs.get(0).getCompanyCode());
-//					ncpPostpone.setEffectiveDate(cacMain_ncpxs.get(0).getEffectiveDate());
-//					ncpPostpone.setExpireDate(cacMain_ncpxs.get(0).getExpireDate());
-//					ncpPostpone.setAfterExpireDate(AfterExpireDate);
-							Timestamp ncpStartDate = new Timestamp(NCPStartDate);
-//					ncpPostpone.setNCPStartDate(ncpStartDate);
-							Timestamp ncpEndDate = new Timestamp(NCPEndDate);
-//					ncpPostpone.setNCPEndDate(ncpEndDate);
-//					ncpPostpone.setNCPValidDate(Integer.parseInt(String.valueOf(NCPValidDate)));
-//					ncpPostpone.setPostponeDay(Integer.parseInt(String.valueOf(PostponeDay)));
-//					ncpPostpone.setCityCode(cacMain_ncpxs.get(0).getCityCode());
-//					ncpPostpone.setLastPolicyConfirmNo(cacMain_ncpb.getConfirmSequenceNo());
-//					ncpPostpone.setVin(cacMain_ncpxs.get(0).getVin());
-//					ncpPostpone.setLicenseNo(cacMain_ncpxs.get(0).getLicenseNo());
-//					ncpPostpone.setEngineNo(cacMain_ncpxs.get(0).getEngineNo());
-//					ncpPostpone.setBusinessType(cacMain_ncpb.getBusinessType());
-//					ncpPostpone.setInputDate(new Timestamp(System.currentTimeMillis()));
-//					ncpPostpone.setValidStatus("1");
+							long PostponeDay = (l - cacMain_ncpxs.get(0).getExpireDate().getTime()) / 86400000;
+							//疫情起期
+							Timestamp ncpStartDate = new Timestamp(start.getTime());
+							//疫情止期
+							Timestamp ncpEndDate = new Timestamp(end.getTime());
 
 							String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
 									" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-									"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+									"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 							int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 									cacMain_ncpxs.get(0).getPolicyNo(),
 									cacMain_ncpxs.get(0).getCompanyCode(),
@@ -489,7 +435,7 @@ public class SinosoftCa implements SinosoftInterface{
 							tag += 1;
 
 						} catch(Exception e) {
-							textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常");
+							textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常"+"\n");
 							error+=1;
 						    e.getMessage();
 						}
@@ -499,9 +445,9 @@ public class SinosoftCa implements SinosoftInterface{
 				}
 
 			}
-			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理结束-----------处理数据量：" + tag + "异常数据量："+error);
+			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理结束-----------处理数据量：" + tag + "异常数据量："+error+"\n");
 		}else {
-			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:业务计算参数为空，请选择必要参数");
+			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:业务计算参数为空，请选择必要参数"+"\n");
 		}
 	}
 
