@@ -25,7 +25,7 @@ public class SinosoftCa implements SinosoftInterface{
 		int error = 0;
 		//查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
 		String selectSql = "select * from CACMain_NCPB where CityCode = ? and BusinessType= ? and Reason = ? and Flag = ?";
-		List<CACMain_NCPB> cacMain_ncpbs = (List<CACMain_NCPB>) CRUDTemplate.executeQuery("ca", selectSql, new BeanListHandler(CACMain_NCPB.class), areaCode, "2", "", "");
+		List<CACMain_NCPB> cacMain_ncpbs = (List<CACMain_NCPB>) CRUDTemplate.executeQuery("ca", selectSql, new BeanListHandler(CACMain_NCPB.class), areaCode, "1", "", "");
 		//遍历数据
 		for (CACMain_NCPB cacMain_ncpb : cacMain_ncpbs) {
 			//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，保单止期倒叙排序,根据此情况进行业务判断
