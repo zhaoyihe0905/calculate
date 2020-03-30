@@ -257,8 +257,8 @@ public class SinosoftIa implements SinosoftInterface{
 	public void SituationTwo(Date start, Date end, JTextArea textArea, String areaCode) {
 	    if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
             textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型2，业务计算方法处理开始-----------"+"\n");
-            long NCPStartDate = start.getTime()/1000;
-            long NCPEndDate = end.getTime()/1000;
+            long NCPStartDate = start.getTime();
+            long NCPEndDate = end.getTime();
             int tag = 0;
             int error = 0;
             //查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
@@ -285,9 +285,9 @@ public class SinosoftIa implements SinosoftInterface{
                         Timestamp AfterEndDate = null;
 
                         //两种情况:1.保单保险止期小于疫情截止日
-                        if (iacMain_ncpb.getEndDate().getTime() < end.getTime()) {
+                        if (iacMain_ncpb.getEndDate().getTime() < NCPEndDate) {
                             //顺延后保单止期:疫情止期+疫情有效期
-                            l = end.getTime() + (NCPValidDate * 86400000);
+                            l = NCPEndDate + (NCPValidDate * 86400000);
                             AfterEndDate = new Timestamp(l);
 
                         } else {//2.保单保险止期>=疫情截止日
@@ -299,9 +299,9 @@ public class SinosoftIa implements SinosoftInterface{
                         long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400000;
 
                         //疫情起期
-                        Timestamp ncpStartDate = new Timestamp(start.getTime());
+                        Timestamp ncpStartDate = new Timestamp(NCPStartDate);
                         //疫情止期
-                        Timestamp ncpEndDate = new Timestamp(end.getTime());
+                        Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
                         String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                 " NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
@@ -356,18 +356,18 @@ public class SinosoftIa implements SinosoftInterface{
                     //以保单起期，顺序排序，找到第一张续保单
                     Util.ciStartTimeSort(iacMain_ncpxs);
                     //特殊情况：本保单疫情期间起保，疫情期间到期；有一张起保日期＞疫情止期的续保单，续保单起保日期-疫情止期≥N；顺延本保单
-                    if ((iacMain_ncpb.getEndDate().getTime() < end.getTime()) && iacMain_ncpxs.get(0).getStartDate().getTime() > end.getTime() && (((iacMain_ncpxs.get(0).getStartDate().getTime() - end.getTime())/ 86400000) >= NCPValidDate)) {
+                    if ((iacMain_ncpb.getEndDate().getTime() < NCPEndDate) && iacMain_ncpxs.get(0).getStartDate().getTime() > NCPEndDate && (((iacMain_ncpxs.get(0).getStartDate().getTime() - NCPEndDate)/ 86400000) >= NCPValidDate)) {
                        try {
 
                            //顺延后保单止期
-                           l = end.getTime() + (NCPValidDate * 86400000);
+                           l = NCPEndDate + (NCPValidDate * 86400000);
                            AfterEndDate = new Timestamp(l);
                            //顺延天数：顺延后保单止期-原保单止期
                            long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400000;
                            //疫情起期
-                           Timestamp ncpStartDate = new Timestamp(start.getTime());
+                           Timestamp ncpStartDate = new Timestamp(NCPStartDate);
                            //疫情止期
-                           Timestamp ncpEndDate = new Timestamp(end.getTime());
+                           Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
                            String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                    " NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
@@ -401,21 +401,21 @@ public class SinosoftIa implements SinosoftInterface{
                             //以保单止期，倒序排序，找到最靠后一张续保单
                             Util.ciEndTimeReverse(iacMain_ncpxs);
                             //2种情况：1、最后一张续保单止期>=疫情截止日
-                            if (iacMain_ncpxs.get(0).getEndDate().getTime() >= end.getTime()) {
+                            if (iacMain_ncpxs.get(0).getEndDate().getTime() >= NCPEndDate) {
                                 //顺延后保单止期:最靠后一张续保单止期+疫情有效期
                                 l = iacMain_ncpxs.get(0).getEndDate().getTime() + (NCPValidDate * 86400000);
                                 AfterEndDate = new Timestamp(l);
                             } else {//2、最后一张续保单止期<疫情截止日
                                 //顺延后保单止期:疫情止期+疫情有效期
-                                l = end.getTime() + (NCPValidDate * 86400000);
+                                l = NCPEndDate + (NCPValidDate * 86400000);
                                 AfterEndDate = new Timestamp(l);
                             }
                             //顺延天数：顺延后保单止期-原最靠后一张续保单止期
                             long PostponeDay = (l - iacMain_ncpxs.get(0).getEndDate().getTime()) / 86400000;
                             //疫情起期
-                            Timestamp ncpStartDate = new Timestamp(start.getTime());
+                            Timestamp ncpStartDate = new Timestamp(NCPStartDate);
                             //疫情止期
-                            Timestamp ncpEndDate = new Timestamp(end.getTime());
+                            Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
                             String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                     " NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPoliConfirmNo,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
