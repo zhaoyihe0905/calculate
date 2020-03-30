@@ -20,8 +20,8 @@ public class SinosoftIa implements SinosoftInterface{
 	public void SituationOne(Date start, Date end, JTextArea textArea, String areaCode) {
         textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型1，业务计算方法处理开始-----------\n");
 		//获取疫情起止日期
-		long NCPStartDate = start.getTime()/1000;
-        long NCPEndDate = end.getTime()/1000;
+		long NCPStartDate = start.getTime();
+        long NCPEndDate = end.getTime();
         int tag = 0;
         int error = 0;
         //查询满足条件的疫情期本保单信息数据
