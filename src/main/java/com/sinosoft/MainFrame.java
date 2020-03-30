@@ -149,8 +149,8 @@ public class MainFrame extends JFrame {
 					}
 					SinosoftIa ia = new SinosoftIa();
 					ia.SituationOne(startDate, endDate, textArea, areaCode.substring(0, 6));
-					ia.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
-					ia.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));
+					/*ia.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ia.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));*/
 
 				}
 
