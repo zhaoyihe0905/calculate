@@ -270,7 +270,13 @@ public class SinosoftIa implements SinosoftInterface{
             //查询IACMain_NCPB-疫情期本保单信息表中的保单信息集合，“保单归属地（地市）-CityCode”“业务类型-BusinessType”、“非延期原因-Reason”、“是否顺延-Flag”三字段作为查询条件进行取值判断
             String IACMain_NCPBsql = "select * from IACMain_NCPB where CityCode = ? and BusinessType= ? and Reason = ? and Flag = ?";
             List<IACMain_NCPB> iacMain_ncpbs = (List<IACMain_NCPB>) CRUDTemplate.executeQuery("ci", IACMain_NCPBsql, new BeanListHandler(IACMain_NCPB.class), areaCode, "2", "", "");
-
+            if(iacMain_ncpbs == null || iacMain_ncpbs.size() == 0){
+                textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:未查询到满足交强业务类型-2-的数据\n");
+                textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型2，业务计算方法执行结束-----------\n");
+                return;
+            }else{
+                textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:查询到满足交强业务类型-2-的数据是：【"+iacMain_ncpbs.size()+"】条\n");
+            }
             //遍历数据
             for (IACMain_NCPB iacMain_ncpb : iacMain_ncpbs) {
                 //拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，止期倒叙排序，根据此情况进行业务判断
