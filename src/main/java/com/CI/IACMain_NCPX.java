@@ -31,7 +31,7 @@ public class IACMain_NCPX {
     //发动机号
     private String EngineNo;
     //几级续保单
-    private int level;
+    private Integer level;
     //提数时间
     private Timestamp InputDate;
 
@@ -128,11 +128,11 @@ public class IACMain_NCPX {
         EngineNo = engineNo;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
