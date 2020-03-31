@@ -153,7 +153,7 @@ public class Util {
         //获取疫情起止日期内的有效天数
         for(Timestamp t:timestampSet){
             long l = t.getTime()/1000;
-            if(NCPStartDate/1000<=l&&l<=NCPEndDate/1000){
+            if(NCPStartDate/1000<=l&&l<NCPEndDate/1000){
                 count=count+1;
             }
         }
