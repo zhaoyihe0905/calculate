@@ -126,6 +126,7 @@ public class Util {
         Set<Timestamp> timestampSet =new HashSet<Timestamp>();
         //天数计算
         long count = 0;
+
         //遍历保单起止日期数组
         for (List<Timestamp> timestamps : bigList) {
             //保单起期
@@ -134,29 +135,49 @@ public class Util {
             long endDate = timestamps.get(1).getTime()/1000;
 
             long time = startDate;
+
+            if (startDate>= NCPEndDate/1000 || endDate <=NCPStartDate/1000 ){
+                continue;
+            }else if (startDate<=NCPStartDate/1000 && endDate>=NCPEndDate/1000){
+
+                return  (NCPStartDate - NCPEndDate) / 86400000;
+                //保单起期在疫情起期之前，保单止期在疫情止期之前
+            }else if(startDate<=NCPStartDate/1000 && endDate <= NCPEndDate/1000){
+                time = NCPStartDate/1000;
+
+                //保单起期在疫情起期之后，保单止期在疫情止期之后
+            }else if(startDate>=NCPStartDate/1000 && endDate >= NCPEndDate/1000){
+
+                endDate = NCPEndDate/1000;
+            }
+
             //判断保单止期是否是0点，若是零点，排除止期当天不算保期天数，反之算作保期天数
-            if (timestamps.get(1).getHours()==0 && timestamps.get(1).getMinutes()==0 && timestamps.get(1).getSeconds()==0){
+            if (endDate%86400==0){
                 while (time<endDate){
-                    Timestamp timestamp = new Timestamp(time*1000);
-                    timestampSet.add(timestamp);
+                    if(NCPStartDate/1000 <= time && time < NCPEndDate/1000){
+                        Timestamp timestamp = new Timestamp(time*1000);
+                        timestampSet.add(timestamp);
+                    }
                     time += 86400;
                 }
             }else{
                 while (time<=endDate){
-                    Timestamp timestamp = new Timestamp(time*1000);
-                    timestampSet.add(timestamp);
+                    if(NCPStartDate/1000 <= time && time < NCPEndDate/1000){
+                        Timestamp timestamp = new Timestamp(time*1000);
+                        timestampSet.add(timestamp);
+                    }
                     time += 86400;
                 }
             }
         }
-
+        count  = timestampSet.size();
         //获取疫情起止日期内的有效天数
-        for(Timestamp t:timestampSet){
-            long l = t.getTime()/1000;
-            if(NCPStartDate/1000<=l&&l<NCPEndDate/1000){
-                count=count+1;
-            }
-        }
+//        for(Timestamp t:timestampSet){
+//            long l = t.getTime()/1000;
+//            if(NCPStartDate/1000<=l&&l<NCPEndDate/1000){
+//                count=count+1;
+//            }
+//        }
         return count;
     }
 
