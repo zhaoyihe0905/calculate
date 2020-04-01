@@ -91,13 +91,13 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(null);
 
 		textField = new JTextField();
-		textField.setText("2020-03-01 00:00:00");
+		textField.setText("2020-02-01 00:00:00");
 		textField.setBounds(137, 37, 148, 24);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
 		textField_2 = new JTextField();
-		textField_2.setText("2020-03-01 00:00:00");
+		textField_2.setText("2020-05-01 00:00:00");
 		textField_2.setColumns(10);
 		textField_2.setBounds(137, 74, 148, 24);
 		contentPane.add(textField_2);
@@ -149,8 +149,8 @@ public class MainFrame extends JFrame {
 					}
 					SinosoftIa ia = new SinosoftIa();
 					ia.SituationOne(startDate, endDate, textArea, areaCode.substring(0, 6));
-					/*ia.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
-					ia.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));*/
+					ia.SituationTwo(startDate, endDate, textArea, areaCode.substring(0, 6));
+					ia.SituationTree(startDate, endDate, textArea, areaCode.substring(0, 6));
 
 				}
 
