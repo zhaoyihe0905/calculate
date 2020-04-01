@@ -17,7 +17,7 @@ public class CRUDTemplate {
      * @param params 可变参数
      * @return 操作结果
      */
-    public static int executeUpdate(String dataSource,String sql,Object... params){
+    public static int executeUpdate(String dataSource,String sql,Object... params)throws Exception {
         Connection conn = null;
         PreparedStatement psmt = null;
         int result = 0;
@@ -32,8 +32,8 @@ public class CRUDTemplate {
             }
             //执行SQL语句获取执行结果
             result = psmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+           throw  e;
         } finally {
             //关闭数据库连接
             JDBCUtil.close(conn,psmt,null);
@@ -68,7 +68,7 @@ public class CRUDTemplate {
             //处理结果集
             return handler.handle(rs);
         } catch (Exception e) {
-            e.printStackTrace();
+             e.printStackTrace();
         } finally {
             //关闭数据库连接
             JDBCUtil.close(conn,psmt,rs);
