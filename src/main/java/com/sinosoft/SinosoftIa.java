@@ -522,7 +522,7 @@ public class SinosoftIa implements SinosoftInterface{
                         Timestamp ncpEndDate = new Timestamp(NCPEndDate);
                         String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                 " NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         int i = CRUDTemplate.executeUpdate("ci", insertSql, iacMain_ncpb.getPolicyConfirmNo(),
                                 iacMain_ncpb.getPolicyNo(),
                                 iacMain_ncpb.getCompanyCode(),
@@ -565,7 +565,7 @@ public class SinosoftIa implements SinosoftInterface{
                             Timestamp ncpEndDate = new Timestamp(NCPEndDate);
                             String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                     " NCPEndDate,NCPValidDate,PostponeDay,CityCode,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-                                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                             int i = CRUDTemplate.executeUpdate("ci", insertSql, iacMain_ncpb.getPolicyConfirmNo(),
                                     iacMain_ncpb.getPolicyNo(),
                                     iacMain_ncpb.getCompanyCode(),
@@ -606,7 +606,7 @@ public class SinosoftIa implements SinosoftInterface{
                             Timestamp ncpEndDate = new Timestamp(NCPEndDate);
                             String insertSql = "insert into IACMain_NCPPostpone(PolicyConfirmNo,PolicyNo,CompanyCode,StartDate,EndDate,AfterEndDate,NCPStartDate,\n" +
                                     " NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPoliConfirmNo,FrameNo,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-                                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                             int i = CRUDTemplate.executeUpdate("ci", insertSql, iacMain_ncpxs.get(0).getPolicyConfirmNo(),
                                     iacMain_ncpxs.get(0).getPolicyNo(),
                                     iacMain_ncpxs.get(0).getCompanyCode(),
