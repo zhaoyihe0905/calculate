@@ -66,7 +66,7 @@ public class SinosoftCa implements SinosoftInterface{
 						Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 						String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
 								" NCPEndDate,NCPValidDate,PostponeDay,CityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,ValidStatus) \n" +
-								"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+								"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 						int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 								cacMain_ncpb.getPolicyNo(),
 								cacMain_ncpb.getCompanyCode(),
@@ -191,7 +191,7 @@ public class SinosoftCa implements SinosoftInterface{
 								l = NCPEndDate + (NCPValidDate*86400000);
 								AfterExpireDate = new Timestamp(l);
 								//顺延天数：顺延后保单止期-原保单止期
-								long PostponeDay = (l - cacMain_ncpxs.get(0).getExpireDate().getTime()) / 86400000;
+								long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400000;
 								Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 								Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 								String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
