@@ -293,7 +293,7 @@ public class SinosoftIa implements SinosoftInterface{
                         bigList.add(list);
                         long NCPValidDate = Util.Calculate(bigList, NCPStartDate, NCPEndDate);
                         //局部变量
-                        long l = 0l;
+                        long l = 0;
                         Timestamp AfterEndDate = null;
 
                         //两种情况:1.保单保险止期小于疫情截止日
