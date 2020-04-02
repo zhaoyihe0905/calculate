@@ -1,0 +1,101 @@
+package com.CA;
+
+import java.sql.Timestamp;
+
+/**
+ * 顺延险种表
+ * author:yy
+ * DateTime:2020/4/2 13:14
+ */
+public class CACCoverage {
+    private int serialNo;
+    private String confirmSequenceNo;
+    private String companyCode;
+    private String coverageCode;
+    private Timestamp effectiveDate;
+    private Timestamp expireDate;
+    private Timestamp afterExpireDate;
+    private Timestamp inputDate;
+    private Timestamp updateTime;
+    private String validStatus;
+
+    public int getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(int serialNo) {
+        this.serialNo = serialNo;
+    }
+
+    public String getConfirmSequenceNo() {
+        return confirmSequenceNo;
+    }
+
+    public void setConfirmSequenceNo(String confirmSequenceNo) {
+        this.confirmSequenceNo = confirmSequenceNo;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getCoverageCode() {
+        return coverageCode;
+    }
+
+    public void setCoverageCode(String coverageCode) {
+        this.coverageCode = coverageCode;
+    }
+
+    public Timestamp getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Timestamp effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Timestamp getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Timestamp expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public Timestamp getAfterExpireDate() {
+        return afterExpireDate;
+    }
+
+    public void setAfterExpireDate(Timestamp afterExpireDate) {
+        this.afterExpireDate = afterExpireDate;
+    }
+
+    public Timestamp getInputDate() {
+        return inputDate;
+    }
+
+    public void setInputDate(Timestamp inputDate) {
+        this.inputDate = inputDate;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getValidStatus() {
+        return validStatus;
+    }
+
+    public void setValidStatus(String validStatus) {
+        this.validStatus = validStatus;
+    }
+}
