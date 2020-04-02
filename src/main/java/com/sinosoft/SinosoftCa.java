@@ -1,6 +1,8 @@
 package com.sinosoft;
 
+import com.CA.CACCoverage;
 import com.CA.CACMain_NCPB;
+import com.CA.CACMain_NCPPostpone;
 import com.CA.CACMain_NCPX;
 import com.CI.IACMain_NCPB;
 import com.sinosoft.jdbc.BeanListHandler;
@@ -677,30 +679,60 @@ public class SinosoftCa implements SinosoftInterface{
 		textArea.paintImmediately(textArea.getBounds());
 	}
 
-	/*public void SituationFour(){
-        textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种业务类型，业务计算方法处理开始-----------\n");
+	public void SituationFour(){
+        textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，业务计算方法处理开始-----------\n");
         textArea.paintImmediately(textArea.getBounds());
-        //查询保单数据开始
-            保单集合
+        //查询顺延保单数据开始
+		String sq ="select * from CACMain_NCPPostpone where Flag != ?";
+		List<CACMain_NCPPostpone> NCPPostpone = (List<CACMain_NCPPostpone>)CRUDTemplate.executeQuery("ca", sq, new BeanListHandler(CACMain_NCPPostpone.class), "1");
         //查询保单数据结束
-
+		if (NCPPostpone == null || NCPPostpone.size()==0) {
+			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，未查询到顺延保单表信息，业务计算方法处理结束-----------\n");
+             return;
+		}
         //多线程处理数据
         //数组开始下标
         int n =ThreadCount;
-        for(int i =0;i<=保单集合.size()/10;i++){
-            List<IACMain_NCPB> list =null;
-            if(n+10>保单集合.size()){
-                list = 保单集合.subList(n,保单集合.size());
+        for(int i =0;i<=NCPPostpone.size()/10;i++){
+            List<CACMain_NCPPostpone> list =null;
+            if(n+10>NCPPostpone.size()){
+                list = NCPPostpone.subList(n,NCPPostpone.size());
             }else{
-                list = 保单集合.subList(n,n+10);
+                list = NCPPostpone.subList(n,n+10);
             }
             n+=10;
-            final List<IACMain_NCPB> ThreadList = list;
+            final List<CACMain_NCPPostpone> threadList = list;
             service.execute(new Runnable() {
                 public void run() {
                     int tag = 0;
                     int error = 0;
+                    try {
+						for (CACMain_NCPPostpone cacMain_ncpPostpone : threadList) {
+							String sql="select * from CACCoverage where ConfirmSequenceNo = ?";
+							List<CACCoverage> cacCoverages = (List<CACCoverage>)CRUDTemplate.executeQuery("ca", sql, new BeanListHandler(CACCoverage.class), cacMain_ncpPostpone.getConfirmSequenceNo());
+							if (cacCoverages != null|| cacCoverages.size()!=0) {
+								for (CACCoverage cacCoverage : cacCoverages) {
+									if (cacCoverage.getExpireDate().compareTo(cacMain_ncpPostpone.getExpireDate())==0){
+										String insertSql = "insert into CACCoverage_NCPPostpone(ConfirmSequenceNo,CompanyCode,CoverageCode,EffectiveDate,ExpireDate,AfterExpireDate,InputDate,ValidStatus) values(?,?,?,?,?,?,?,?)";
+										CRUDTemplate.executeUpdate("ca",insertSql,
+												cacCoverage.getConfirmSequenceNo(),
+												cacCoverage.getCompanyCode(),
+												cacCoverage.getCoverageCode(),
+												cacCoverage.getEffectiveDate(),
+												cacCoverage.getExpireDate(),
+												cacMain_ncpPostpone.getAfterExpireDate(),
+												new Timestamp(System.currentTimeMillis()), "1");
+										tag+=1;
+									}
+								}
+							}
 
+						}
+
+                    } catch(Exception e) {
+						error+=1;
+                        e.getMessage();
+                    }
 
                     queueTag.add(tag);
                     queueError.add(error);
@@ -708,6 +740,7 @@ public class SinosoftCa implements SinosoftInterface{
             });
 
         }
+		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，业务计算方法处理结束-----------处理数据量：" + queueTag + "异常数据量：" + queueError + "\n");
 
-    }*/
+    }
 }
