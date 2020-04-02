@@ -2,21 +2,65 @@ package com.sinosoft;
 
 import com.CA.CACMain_NCPB;
 import com.CA.CACMain_NCPX;
+import com.CI.IACMain_NCPB;
 import com.sinosoft.jdbc.BeanListHandler;
 import com.sinosoft.jdbc.CRUDTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JTextArea;
 
 public class SinosoftCa implements SinosoftInterface{
+    /**
+     * 公共变量定义
+     */
+    private static long NCPStartDate= 0;
+    private static long NCPEndDate= 0;
+    private static Date start;
+    private static Date end;
+    private static JTextArea textArea;
+    private static String areaCode;
 
-	public void SituationOne(Date start, Date end, JTextArea textArea, String areaCode) {
+    private static Integer ThreadCount = 0;
+    /**
+     * 线程池 100
+     */
+    ExecutorService service = Executors.newFixedThreadPool(100);
+    /**
+     * 线程安全队列 正确处理数据数量统计
+     */
+    private  static Queue<Integer> queueTag = new ConcurrentLinkedQueue();
+    /**
+     * 线程安全队列 异常数据数量统计
+     */
+    private  static Queue<Integer> queueError = new ConcurrentLinkedQueue();
+    public SinosoftCa(Date start, Date end, JTextArea textArea, String areaCode){
+        this.start = start;
+        this.end = end;
+        this.textArea = textArea;
+        this.areaCode = areaCode;
+        //读取config配置文件
+        Properties prop = new Properties();
+        InputStream in = MainFrame.class.getClassLoader().getResourceAsStream("com/config/config.properties");
+        try {
+            prop.load(new InputStreamReader(in,"UTF-8"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ThreadCount = Integer.parseInt(prop.getProperty("ThreadMaxCount"));
+    }
+
+	public void SituationOne() {
 		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型1，业务计算方法处理开始-----------\n");
 		textArea.paintImmediately(textArea.getBounds());
 		//获取疫情起止日期
@@ -251,7 +295,7 @@ public class SinosoftCa implements SinosoftInterface{
 		textArea.paintImmediately(textArea.getBounds());
 	}
 
-	public void SituationTwo(Date start, Date end, JTextArea textArea, String areaCode) {
+	public void SituationTwo() {
 		if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
 			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理开始-----------"+"\n");
 			textArea.paintImmediately(textArea.getBounds());
@@ -460,7 +504,7 @@ public class SinosoftCa implements SinosoftInterface{
 		textArea.paintImmediately(textArea.getBounds());
 	}
 
-	public void SituationTree(Date start, Date end, JTextArea textArea, String areaCode) {
+	public void SituationTree() {
         if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
             textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:业务类型3，业务计算方法处理开始-----------"+"\n");
 			textArea.paintImmediately(textArea.getBounds());
@@ -632,4 +676,38 @@ public class SinosoftCa implements SinosoftInterface{
         }
 		textArea.paintImmediately(textArea.getBounds());
 	}
+
+	/*public void SituationFour(){
+        textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种业务类型，业务计算方法处理开始-----------\n");
+        textArea.paintImmediately(textArea.getBounds());
+        //查询保单数据开始
+            保单集合
+        //查询保单数据结束
+
+        //多线程处理数据
+        //数组开始下标
+        int n =ThreadCount;
+        for(int i =0;i<=保单集合.size()/10;i++){
+            List<IACMain_NCPB> list =null;
+            if(n+10>保单集合.size()){
+                list = 保单集合.subList(n,保单集合.size());
+            }else{
+                list = 保单集合.subList(n,n+10);
+            }
+            n+=10;
+            final List<IACMain_NCPB> ThreadList = list;
+            service.execute(new Runnable() {
+                public void run() {
+                    int tag = 0;
+                    int error = 0;
+
+
+                    queueTag.add(tag);
+                    queueError.add(error);
+                }
+            });
+
+        }
+
+    }*/
 }
