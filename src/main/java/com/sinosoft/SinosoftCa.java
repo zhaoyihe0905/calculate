@@ -690,6 +690,8 @@ public class SinosoftCa implements SinosoftInterface{
 			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，未查询到顺延保单表信息，业务计算方法处理结束-----------\n");
              return;
 		}
+        int tag =0;
+        int error = 0;
         //多线程处理数据
         //数组开始下标
         int n =ThreadCount;
@@ -706,7 +708,6 @@ public class SinosoftCa implements SinosoftInterface{
                 public void run() {
                     int tag = 0;
                     int error = 0;
-                    try {
 						for (CACMain_NCPPostpone cacMain_ncpPostpone : threadList) {
 							String sql="select * from CACCoverage where ConfirmSequenceNo = ?";
 							List<CACCoverage> cacCoverages = (List<CACCoverage>)CRUDTemplate.executeQuery("ca", sql, new BeanListHandler(CACCoverage.class), cacMain_ncpPostpone.getConfirmSequenceNo());
@@ -714,25 +715,27 @@ public class SinosoftCa implements SinosoftInterface{
 								for (CACCoverage cacCoverage : cacCoverages) {
 									if (cacCoverage.getExpireDate().compareTo(cacMain_ncpPostpone.getExpireDate())==0){
 										String insertSql = "insert into CACCoverage_NCPPostpone(ConfirmSequenceNo,CompanyCode,CoverageCode,EffectiveDate,ExpireDate,AfterExpireDate,InputDate,ValidStatus) values(?,?,?,?,?,?,?,?)";
-										CRUDTemplate.executeUpdate("ca",insertSql,
-												cacCoverage.getConfirmSequenceNo(),
-												cacCoverage.getCompanyCode(),
-												cacCoverage.getCoverageCode(),
-												cacCoverage.getEffectiveDate(),
-												cacCoverage.getExpireDate(),
-												cacMain_ncpPostpone.getAfterExpireDate(),
-												new Timestamp(System.currentTimeMillis()), "1");
-										tag+=1;
+										try {
+                                            CRUDTemplate.executeUpdate("ca",insertSql,
+                                                    cacCoverage.getConfirmSequenceNo(),
+                                                    cacCoverage.getCompanyCode(),
+                                                    cacCoverage.getCoverageCode(),
+                                                    cacCoverage.getEffectiveDate(),
+                                                    cacCoverage.getExpireDate(),
+                                                    cacMain_ncpPostpone.getAfterExpireDate(),
+                                                    new Timestamp(System.currentTimeMillis()), "1");
+                                            tag+=1;
+
+										} catch(Exception e) {
+										    error+=1;
+										    e.getMessage();
+										}
+
 									}
 								}
 							}
 
 						}
-
-                    } catch(Exception e) {
-						error+=1;
-                        e.getMessage();
-                    }
 
                     queueTag.add(tag);
                     queueError.add(error);
@@ -740,7 +743,14 @@ public class SinosoftCa implements SinosoftInterface{
             });
 
         }
-		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，业务计算方法处理结束-----------处理数据量：" + queueTag + "异常数据量：" + queueError + "\n");
+        //统计数量
+        while(queueTag.peek()!=null){
+            tag +=queueTag.poll();
+        }
+        while(queueError.peek()!=null){
+            error +=queueError.poll();
+        }
+		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，业务计算方法处理结束-----------处理数据量：" + tag + "异常数据量：" + error + "\n");
 
     }
 }
