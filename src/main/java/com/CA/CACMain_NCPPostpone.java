@@ -34,6 +34,8 @@ public class CACMain_NCPPostpone {
     private int PostponeDay;
     //上张保单投保确认吗
     private String LastPolicyConfirmNo;
+    //上张保单保单归属地（地市）
+    private String LastCityCode;
     //车架号
     private String Vin;
     //车牌号
@@ -55,6 +57,13 @@ public class CACMain_NCPPostpone {
     public CACMain_NCPPostpone() {
     }
 
+    public String getLastCityCode() {
+        return LastCityCode;
+    }
+
+    public void setLastCityCode(String lastCityCode) {
+        LastCityCode = lastCityCode;
+    }
 
     public int getSerialNo() {
         return SerialNo;

@@ -24,6 +24,8 @@ public class IACMain_NCPX {
     private Timestamp EndDate;
     //上张保单投保确认吗
     private String LastPoliConfirmNo;
+    //上张保单保单归属地（地市）
+    private String LastCityCode;
     //车架号
     private String FrameNo;
     //车牌号
@@ -39,6 +41,13 @@ public class IACMain_NCPX {
     public IACMain_NCPX() {
     }
 
+    public String getLastCityCode() {
+        return LastCityCode;
+    }
+
+    public void setLastCityCode(String lastCityCode) {
+        LastCityCode = lastCityCode;
+    }
 
     public int getSerialNo() {
         return SerialNo;

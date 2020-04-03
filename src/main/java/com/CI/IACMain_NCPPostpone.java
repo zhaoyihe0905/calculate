@@ -34,6 +34,8 @@ public class IACMain_NCPPostpone {
     private int PostponeDay;
     //上张保单投保确认吗
     private String LastPoliConfirmNo;
+    //上张保单保单归属地（地市）
+    private String LastCityCode;
     //车架号
     private String FrameNo;
     //车牌号
@@ -54,6 +56,14 @@ public class IACMain_NCPPostpone {
     public IACMain_NCPPostpone() {
     }
 
+
+    public String getLastCityCode() {
+        return LastCityCode;
+    }
+
+    public void setLastCityCode(String lastCityCode) {
+        LastCityCode = lastCityCode;
+    }
 
     public int getSerialNo() {
         return SerialNo;

@@ -130,8 +130,8 @@ public class SinosoftCa implements SinosoftInterface{
 								Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 								Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 								String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-										" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-										"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+										" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+										"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 								int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 										cacMain_ncpb.getPolicyNo(),
 										cacMain_ncpb.getCompanyCode(),
@@ -143,6 +143,7 @@ public class SinosoftCa implements SinosoftInterface{
 										Integer.parseInt(String.valueOf(NCPValidDate)),
 										Integer.parseInt(String.valueOf(PostponeDay)),
 										cacMain_ncpb.getCityCode(),
+										"",
 										"",
 										cacMain_ncpb.getVin(),
 										cacMain_ncpb.getLicenseNo(),
@@ -192,8 +193,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 												cacMain_ncpxs.get(0).getPolicyNo(),
 												cacMain_ncpxs.get(0).getCompanyCode(),
@@ -206,6 +207,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpxs.get(0).getCityCode(),
 												cacMain_ncpb.getConfirmSequenceNo(),
+												cacMain_ncpb.getCityCode(),
 												cacMain_ncpxs.get(0).getVin(),
 												cacMain_ncpxs.get(0).getLicenseNo(),
 												cacMain_ncpxs.get(0).getEngineNo(),
@@ -222,8 +224,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 												cacMain_ncpxs.get(0).getPolicyNo(),
 												cacMain_ncpxs.get(0).getCompanyCode(),
@@ -236,6 +238,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpxs.get(0).getCityCode(),
 												cacMain_ncpb.getConfirmSequenceNo(),
+												cacMain_ncpb.getCityCode(),
 												cacMain_ncpxs.get(0).getVin(),
 												cacMain_ncpxs.get(0).getLicenseNo(),
 												cacMain_ncpxs.get(0).getEngineNo(),
@@ -257,8 +260,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 												cacMain_ncpb.getPolicyNo(),
 												cacMain_ncpb.getCompanyCode(),
@@ -271,6 +274,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpb.getCityCode(),
                                                 "",
+												"",
 												cacMain_ncpb.getVin(),
 												cacMain_ncpb.getLicenseNo(),
 												cacMain_ncpb.getEngineNo(),
@@ -288,8 +292,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 												cacMain_ncpxs.get(0).getPolicyNo(),
 												cacMain_ncpxs.get(0).getCompanyCode(),
@@ -302,6 +306,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpxs.get(0).getCityCode(),
 												cacMain_ncpb.getConfirmSequenceNo(),
+												cacMain_ncpb.getCityCode(),
 												cacMain_ncpxs.get(0).getVin(),
 												cacMain_ncpxs.get(0).getLicenseNo(),
 												cacMain_ncpxs.get(0).getEngineNo(),
@@ -420,8 +425,8 @@ public class SinosoftCa implements SinosoftInterface{
 									Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
 									String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-											" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-											"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+											" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+											"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 									int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 											cacMain_ncpb.getPolicyNo(),
 											cacMain_ncpb.getCompanyCode(),
@@ -433,6 +438,7 @@ public class SinosoftCa implements SinosoftInterface{
 											Integer.parseInt(String.valueOf(NCPValidDate)),
 											Integer.parseInt(String.valueOf(PostponeDay)),
 											cacMain_ncpb.getCityCode(),
+											"",
 											"",
 											cacMain_ncpb.getVin(),
 											cacMain_ncpb.getLicenseNo(),
@@ -484,8 +490,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 												cacMain_ncpb.getPolicyNo(),
 												cacMain_ncpb.getCompanyCode(),
@@ -497,6 +503,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(NCPValidDate)),
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpb.getCityCode(),
+												"",
 												"",
 												cacMain_ncpb.getVin(),
 												cacMain_ncpb.getLicenseNo(),
@@ -524,8 +531,8 @@ public class SinosoftCa implements SinosoftInterface{
                                         Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
                                         String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-                                                " NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-                                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                                " NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+                                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                                         int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
                                                 cacMain_ncpb.getPolicyNo(),
                                                 cacMain_ncpb.getCompanyCode(),
@@ -537,6 +544,7 @@ public class SinosoftCa implements SinosoftInterface{
                                                 Integer.parseInt(String.valueOf(NCPValidDate)),
                                                 Integer.parseInt(String.valueOf(PostponeDay)),
                                                 cacMain_ncpb.getCityCode(),
+                                                "",
                                                 "",
                                                 cacMain_ncpb.getVin(),
                                                 cacMain_ncpb.getLicenseNo(),
@@ -571,8 +579,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 												cacMain_ncpxs.get(0).getPolicyNo(),
 												cacMain_ncpxs.get(0).getCompanyCode(),
@@ -585,6 +593,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpxs.get(0).getCityCode(),
 												cacMain_ncpb.getConfirmSequenceNo(),
+												cacMain_ncpb.getCityCode(),
 												cacMain_ncpxs.get(0).getVin(),
 												cacMain_ncpxs.get(0).getLicenseNo(),
 												cacMain_ncpxs.get(0).getEngineNo(),
@@ -702,8 +711,8 @@ public class SinosoftCa implements SinosoftInterface{
 									Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 									Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 									String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-											" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-											"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+											" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+											"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 									int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 											cacMain_ncpb.getPolicyNo(),
 											cacMain_ncpb.getCompanyCode(),
@@ -715,6 +724,7 @@ public class SinosoftCa implements SinosoftInterface{
 											Integer.parseInt(String.valueOf(NCPValidDate)),
 											Integer.parseInt(String.valueOf(PostponeDay)),
 											cacMain_ncpb.getCityCode(),
+											"",
 											"",
 											cacMain_ncpb.getVin(),
 											cacMain_ncpb.getLicenseNo(),
@@ -747,8 +757,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
 												cacMain_ncpb.getPolicyNo(),
 												cacMain_ncpb.getCompanyCode(),
@@ -760,6 +770,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(NCPValidDate)),
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpb.getCityCode(),
+												"",
 												"",
 												cacMain_ncpb.getVin(),
 												cacMain_ncpb.getLicenseNo(),
@@ -788,8 +799,8 @@ public class SinosoftCa implements SinosoftInterface{
 										Timestamp ncpStartDate = new Timestamp(NCPStartDate);
 										Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 										String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
-												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
-												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+												" NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,LastCityCode,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+												"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 										int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpxs.get(0).getConfirmSequenceNo(),
 												cacMain_ncpxs.get(0).getPolicyNo(),
 												cacMain_ncpxs.get(0).getCompanyCode(),
@@ -802,6 +813,7 @@ public class SinosoftCa implements SinosoftInterface{
 												Integer.parseInt(String.valueOf(PostponeDay)),
 												cacMain_ncpxs.get(0).getCityCode(),
 												cacMain_ncpb.getConfirmSequenceNo(),
+												cacMain_ncpb.getCityCode(),
 												cacMain_ncpxs.get(0).getVin(),
 												cacMain_ncpxs.get(0).getLicenseNo(),
 												cacMain_ncpxs.get(0).getEngineNo(),
