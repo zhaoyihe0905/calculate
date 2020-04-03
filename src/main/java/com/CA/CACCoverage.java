@@ -3,29 +3,18 @@ package com.CA;
 import java.sql.Timestamp;
 
 /**
- * 顺延险种表
+ * 险种表
  * author:yy
  * DateTime:2020/4/2 13:14
  */
 public class CACCoverage {
-    private int serialNo;
+
     private String confirmSequenceNo;
     private String companyCode;
     private String coverageCode;
     private Timestamp effectiveDate;
     private Timestamp expireDate;
-    private Timestamp afterExpireDate;
-    private Timestamp inputDate;
-    private Timestamp updateTime;
-    private String validStatus;
 
-    public int getSerialNo() {
-        return serialNo;
-    }
-
-    public void setSerialNo(int serialNo) {
-        this.serialNo = serialNo;
-    }
 
     public String getConfirmSequenceNo() {
         return confirmSequenceNo;
@@ -67,35 +56,5 @@ public class CACCoverage {
         this.expireDate = expireDate;
     }
 
-    public Timestamp getAfterExpireDate() {
-        return afterExpireDate;
-    }
 
-    public void setAfterExpireDate(Timestamp afterExpireDate) {
-        this.afterExpireDate = afterExpireDate;
-    }
-
-    public Timestamp getInputDate() {
-        return inputDate;
-    }
-
-    public void setInputDate(Timestamp inputDate) {
-        this.inputDate = inputDate;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getValidStatus() {
-        return validStatus;
-    }
-
-    public void setValidStatus(String validStatus) {
-        this.validStatus = validStatus;
-    }
 }
