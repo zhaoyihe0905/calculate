@@ -335,7 +335,7 @@ public class SinosoftIa implements SinosoftInterface{
             error +=queueError.poll();
         }
         textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型1，业务计算方法处理结束-----------处理数据量：" + tag + "异常数据量："+error+"\n");
-        //textArea.paintImmediately(textArea.getBounds());
+        textArea.paintImmediately(textArea.getBounds());
        }
 
 	public void SituationTwo() {
