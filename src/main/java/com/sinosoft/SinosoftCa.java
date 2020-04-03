@@ -868,6 +868,13 @@ public class SinosoftCa implements SinosoftInterface{
             });
 
         }
+		service.shutdown();
+		while(true){
+			if(service.isTerminated()){
+				break;
+			}
+
+		}
         //统计数量
         while(queueTag.peek()!=null){
             tag +=queueTag.poll();
