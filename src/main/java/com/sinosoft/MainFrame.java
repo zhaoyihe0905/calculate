@@ -158,7 +158,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("华文行楷", Font.PLAIN, 18));
-		btnNewButton.setBounds(137, 131, 113, 27);
+		btnNewButton.setBounds(137, 111, 113, 27);
 		contentPane.add(btnNewButton);
 
 		JTextPane textPane_2 = new JTextPane();
@@ -172,15 +172,32 @@ public class MainFrame extends JFrame {
 		textPane_3.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_3.setBackground(new Color(255, 255, 255));
 		textPane_3.setText("交强险");
-		textPane_3.setBounds(44, 134, 92, 24);
+		textPane_3.setBounds(44, 114, 92, 24);
 		contentPane.add(textPane_3);
 
 		JTextPane textPane_4 = new JTextPane();
 		textPane_4.setFont(new Font("华文行楷", Font.PLAIN, 18));
 		textPane_4.setBackground(new Color(255, 255, 255));
 		textPane_4.setText("商业险");
-		textPane_4.setBounds(345, 134, 92, 24);
+		textPane_4.setBounds(345, 114, 92, 24);
 		contentPane.add(textPane_4);
+
+		JTextPane textPane_5 = new JTextPane();
+		textPane_5.setFont(new Font("华文行楷", Font.PLAIN, 18));
+		textPane_5.setBackground(new Color(255, 255, 255));
+		textPane_5.setText("清除日志");
+		textPane_5.setBounds(345, 164, 92, 24);
+		contentPane.add(textPane_5);
+
+		JButton button_5 = new JButton("清除");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("");
+			}
+		});
+		button_5.setFont(new Font("华文行楷", Font.PLAIN, 18));
+		button_5.setBounds(437, 161, 113, 27);
+		contentPane.add(button_5);
 
 		JButton button_4 = new JButton("执行");
 		button_4.addActionListener(new ActionListener() {
@@ -215,7 +232,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		button_4.setFont(new Font("华文行楷", Font.PLAIN, 18));
-		button_4.setBounds(437, 131, 113, 27);
+		button_4.setBounds(437, 111, 113, 27);
 		contentPane.add(button_4);
 		textArea.setFont(new Font("黑体", Font.PLAIN, 16));
 
