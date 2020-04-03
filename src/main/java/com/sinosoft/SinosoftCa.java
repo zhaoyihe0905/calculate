@@ -467,9 +467,7 @@ public class SinosoftCa implements SinosoftInterface{
 								//以保单起期，顺序排序，找到第一张续保单
 								Util.caStartTimeSort(cacMain_ncpxs);
 								//特殊情况：1、本保单疫情期间起保，疫情期间到期；有一张起保日期＞疫情止期的续保单，续保单起保日期-疫情止期≥N；顺延本保单
-								if (cacMain_ncpb.getExpireDate().getTime() <= NCPEndDate && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > NCPEndDate && (((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - NCPEndDate)/ 86400000) >= NCPValidDate) ||
-										//2、本保单疫情期间起保，本保单止期>疫情截止日；有一张起保日期＞本保单止期的续保单，续保单起保日期-本保单止期≥N；顺延本保单
-										(cacMain_ncpb.getExpireDate().getTime() > NCPEndDate && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > cacMain_ncpb.getExpireDate().getTime() && (((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - cacMain_ncpb.getExpireDate().getTime())/ 86400000) >= NCPValidDate))) {
+								if (cacMain_ncpb.getExpireDate().getTime() <= NCPEndDate && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > NCPEndDate && (((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - NCPEndDate)/ 86400000) >= NCPValidDate)) {
 									try {
 										//顺延后保单止期
 										l = NCPEndDate + (NCPValidDate * 86400000);
@@ -508,8 +506,46 @@ public class SinosoftCa implements SinosoftInterface{
 										error+=1;
 										e.getMessage();
 									}
+                                   //2、本保单疫情期间起保，本保单止期>疫情截止日；有一张起保日期＞本保单止期的续保单，续保单起保日期-本保单止期≥N；顺延本保单
+								} else if((cacMain_ncpb.getExpireDate().getTime() > NCPEndDate && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > cacMain_ncpb.getExpireDate().getTime() && (((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - cacMain_ncpb.getExpireDate().getTime())/ 86400000) >= NCPValidDate))){
+								    try {
+                                        //顺延后保单止期
+                                        l = cacMain_ncpb.getExpireDate().getTime() + (NCPValidDate * 86400000);
+                                        AfterExpireDate = new Timestamp(l);
+                                        //顺延天数：顺延后保单止期-原保单止期
+                                        long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400000;
+                                        //疫情起期
+                                        Timestamp ncpStartDate = new Timestamp(NCPStartDate);
+                                        //疫情止期
+                                        Timestamp ncpEndDate = new Timestamp(NCPEndDate);
 
-								} else {
+                                        String insertSql = "insert into CACMain_NCPPostpone(ConfirmSequenceNo,PolicyNo,CompanyCode,EffectiveDate,ExpireDate,AfterExpireDate,NCPStartDate,\n" +
+                                                " NCPEndDate,NCPValidDate,PostponeDay,CityCode,LastPolicyConfirmNo,Vin,LicenseNo,EngineNo,BusinessType,InputDate,Flag,ValidStatus) \n" +
+                                                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                        int i = CRUDTemplate.executeUpdate("ca", insertSql, cacMain_ncpb.getConfirmSequenceNo(),
+                                                cacMain_ncpb.getPolicyNo(),
+                                                cacMain_ncpb.getCompanyCode(),
+                                                cacMain_ncpb.getEffectiveDate(),
+                                                cacMain_ncpb.getExpireDate(),
+                                                AfterExpireDate,
+                                                ncpStartDate,
+                                                ncpEndDate,
+                                                Integer.parseInt(String.valueOf(NCPValidDate)),
+                                                Integer.parseInt(String.valueOf(PostponeDay)),
+                                                cacMain_ncpb.getCityCode(),
+                                                "",
+                                                cacMain_ncpb.getVin(),
+                                                cacMain_ncpb.getLicenseNo(),
+                                                cacMain_ncpb.getEngineNo(),
+                                                cacMain_ncpb.getBusinessType(),
+                                                new Timestamp(System.currentTimeMillis()), "","1");
+                                        tag += 1;
+								    } catch(Exception e) {
+                                        textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:数据处理异常"+"\n");
+                                        error+=1;
+                                        e.getMessage();
+								    }
+                                }else{
 									try {
 										//以保单止期，倒序排序，找到最靠后一张续保单
 										Util.caEndTimeReverse(cacMain_ncpxs);

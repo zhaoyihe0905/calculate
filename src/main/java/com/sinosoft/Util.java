@@ -140,7 +140,7 @@ public class Util {
                 continue;
             }else if (startDate<=NCPStartDate/1000 && endDate>=NCPEndDate/1000){
 
-                return  (NCPStartDate - NCPEndDate) / 86400000;
+                return  (NCPEndDate - NCPStartDate) / 86400000;
                 //保单起期在疫情起期之前，保单止期在疫情止期之前
             }else if(startDate<=NCPStartDate/1000 && endDate <= NCPEndDate/1000){
                 time = NCPStartDate/1000;
