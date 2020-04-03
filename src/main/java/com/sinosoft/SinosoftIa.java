@@ -734,7 +734,7 @@ public class SinosoftIa implements SinosoftInterface{
                                 //以保单起期，顺序排序，找到第一张续保单
                                 Util.ciStartTimeSort(iacMain_ncpxs);
                                 //特殊情况：续保单起保日期-本保单止期>=N；顺延本保单
-                                if((iacMain_ncpxs.get(0).getStartDate().getTime()-iacMain_ncpb.getEndDate().getTime())>=NCPValidDate ){
+                                if(((iacMain_ncpxs.get(0).getStartDate().getTime()-iacMain_ncpb.getEndDate().getTime())/86400000)>=NCPValidDate ){
                                     try {
                                         //顺延后保单止期
                                         l=iacMain_ncpb.getEndDate().getTime()+(NCPValidDate*86400000);
