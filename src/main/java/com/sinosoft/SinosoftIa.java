@@ -118,7 +118,7 @@ public class SinosoftIa implements SinosoftInterface{
                                 Timestamp AfterEndDate = null;
 
                                 //本保单顺延后止期=疫情截止日+（本保单止期-疫情起期）
-                                l = NCPEndDate + (iacMain_ncpb.getEndDate().getTime()-NCPStartDate);
+                                l = NCPEndDate + (NCPValidDate*86400000);
                                 AfterEndDate = new Timestamp(l);
                                 //顺延天数：顺延后保单止期-原保单止期
                                 long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400000;
