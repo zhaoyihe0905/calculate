@@ -136,13 +136,9 @@ public class Util {
 
             long time = startDate;
 
-            if (startDate>= NCPEndDate/1000 || endDate <=NCPStartDate/1000 ){
+            if (startDate> NCPEndDate/1000+86400 || endDate <=NCPStartDate/1000 ){
                 continue;
-            }else if (startDate<=NCPStartDate/1000 && endDate>=NCPEndDate/1000){
-
-                return  (NCPEndDate - NCPStartDate) / 86400000;
-                //保单起期在疫情起期之前，保单止期在疫情止期之前
-            }else if(startDate<=NCPStartDate/1000 && endDate <= NCPEndDate/1000){
+            }else if(startDate<=NCPStartDate/1000 && endDate < NCPEndDate/1000+86400){
                 time = NCPStartDate/1000;
 
                 //保单起期在疫情起期之后，保单止期在疫情止期之后
