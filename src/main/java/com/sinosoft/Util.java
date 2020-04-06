@@ -151,24 +151,26 @@ public class Util {
                 endDate = NCPEndDate/1000;
             }
 
-            //判断保单止期是否是0点，若是零点，排除止期当天不算保期天数，反之算作保期天数
-            if (endDate%86400==57600){
-                while (time<endDate){
-                    if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
-                        Timestamp timestamp = new Timestamp(time*1000);
-                        timestampSet.add(timestamp);
-                    }
-                    time += 86400;
+         //疫情止期当天 算作疫情有效期，
+            while (time<=endDate){
+                if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
+                    Timestamp timestamp = new Timestamp(time*1000);
+                    timestampSet.add(timestamp);
                 }
-            }else{
-                while (time<=endDate){
-                    if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
-                        Timestamp timestamp = new Timestamp(time*1000);
-                        timestampSet.add(timestamp);
-                    }
-                    time += 86400;
-                }
+                time += 86400;
             }
+            //判断保单止期是否是0点，若是零点，排除止期当天不算保期天数，反之算作保期天数
+//            if (endDate%86400==57600){
+//                while (time<endDate){
+//                    if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
+//                        Timestamp timestamp = new Timestamp(time*1000);
+//                        timestampSet.add(timestamp);
+//                    }
+//                    time += 86400;
+//                }
+//            }else{
+//
+//            }
         }
         count  = timestampSet.size();
         //获取疫情起止日期内的有效天数
