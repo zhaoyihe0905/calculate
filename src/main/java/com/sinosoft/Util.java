@@ -154,7 +154,7 @@ public class Util {
             //判断保单止期是否是0点，若是零点，排除止期当天不算保期天数，反之算作保期天数
             if (endDate%86400==57600){
                 while (time<endDate){
-                    if(NCPStartDate/1000 <= time && time < NCPEndDate/1000){
+                    if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
                         Timestamp timestamp = new Timestamp(time*1000);
                         timestampSet.add(timestamp);
                     }
@@ -162,7 +162,7 @@ public class Util {
                 }
             }else{
                 while (time<=endDate){
-                    if(NCPStartDate/1000 <= time && time < NCPEndDate/1000){
+                    if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
                         Timestamp timestamp = new Timestamp(time*1000);
                         timestampSet.add(timestamp);
                     }
