@@ -48,7 +48,7 @@ public class SinosoftIa implements SinosoftInterface{
         this.areaCode = areaCode;
         //读取config配置文件
         Properties prop = new Properties();
-        InputStream in = MainFrame.class.getClassLoader().getResourceAsStream("com/config/config.properties");
+        InputStream in = MainFrame.class.getClassLoader().getResourceAsStream("com/config/db.properties");
         try {
             prop.load(new InputStreamReader(in,"UTF-8"));
         } catch (IOException e) {
