@@ -149,7 +149,7 @@ public class Util {
 
          //疫情止期当天 算作疫情有效期，
             while (time<endDate+86400){
-                if(NCPStartDate/1000 <= time && time <= NCPEndDate/1000){
+                if(NCPStartDate/1000 <= time && time < NCPEndDate/1000+86400){
                     Timestamp timestamp = new Timestamp(time*1000);
                     timestampSet.add(timestamp);
                 }
