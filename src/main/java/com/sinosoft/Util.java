@@ -206,7 +206,7 @@ public class Util {
 
         long between_days=(time2-time1)/(1000*3600*24);
 
-        return between_days;
+        return between_days+1;
 
     }
 }
