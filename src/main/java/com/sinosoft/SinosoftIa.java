@@ -405,7 +405,7 @@ public class SinosoftIa implements SinosoftInterface{
                                     //两种情况:1.保单保险止期小于疫情截止日
                                     if (iacMain_ncpb.getEndDate().getTime() < NCPEndDate) {
                                         //顺延后保单止期:疫情止期+疫情有效期
-                                        l = NCPEndDate + (NCPValidDate * 86400000);
+                                        l = NCPEndDate + 86400000+ (NCPValidDate * 86400000);
                                         AfterEndDate = new Timestamp(l);
 
                                     } else {//2.保单保险止期>=疫情截止日
@@ -479,7 +479,7 @@ public class SinosoftIa implements SinosoftInterface{
                                 if ((iacMain_ncpb.getEndDate().getTime() <= NCPEndDate && iacMain_ncpxs.get(0).getStartDate().getTime() > NCPEndDate && (((iacMain_ncpxs.get(0).getStartDate().getTime() - NCPEndDate)/ 86400000) >= NCPValidDate))){
                                     try {
                                         //顺延后保单止期
-                                        l = NCPEndDate + (NCPValidDate * 86400000);
+                                        l = NCPEndDate + 86400000 + (NCPValidDate * 86400000);
                                         AfterEndDate = new Timestamp(l);
                                         //顺延天数：顺延后保单止期-原保单止期
                                         long PostponeDay = (l - iacMain_ncpb.getEndDate().getTime()) / 86400000;
@@ -568,7 +568,7 @@ public class SinosoftIa implements SinosoftInterface{
                                             AfterEndDate = new Timestamp(l);
                                         } else {//2、最后一张续保单止期<疫情截止日
                                             //顺延后保单止期:疫情止期+疫情有效期
-                                            l = NCPEndDate + (NCPValidDate * 86400000);
+                                            l = NCPEndDate + 86400000 + (NCPValidDate * 86400000);
                                             AfterEndDate = new Timestamp(l);
                                         }
                                         //顺延天数：顺延后保单止期-原最靠后一张续保单止期

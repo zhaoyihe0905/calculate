@@ -409,7 +409,7 @@ public class SinosoftCa implements SinosoftInterface{
 									//两种情况:1.保单保险止期小于疫情截止日
 									if (cacMain_ncpb.getExpireDate().getTime() < NCPEndDate) {
 										//顺延后保单止期:疫情止期+疫情有效期
-										l = NCPEndDate + (NCPValidDate * 86400000);
+										l = NCPEndDate + 86400000 + (NCPValidDate * 86400000);
 										AfterExpireDate = new Timestamp(l);
 
 									} else {//2.保单保险止期>=疫情截止日
@@ -480,7 +480,7 @@ public class SinosoftCa implements SinosoftInterface{
 								if (cacMain_ncpb.getExpireDate().getTime() <= NCPEndDate && cacMain_ncpxs.get(0).getEffectiveDate().getTime() > NCPEndDate && (((cacMain_ncpxs.get(0).getEffectiveDate().getTime() - NCPEndDate)/ 86400000) >= NCPValidDate)) {
 									try {
 										//顺延后保单止期
-										l = NCPEndDate + (NCPValidDate * 86400000);
+										l = NCPEndDate + 86400000 + (NCPValidDate * 86400000);
 										AfterExpireDate = new Timestamp(l);
 										//顺延天数：顺延后保单止期-原保单止期
 										long PostponeDay = (l - cacMain_ncpb.getExpireDate().getTime()) / 86400000;
@@ -568,7 +568,7 @@ public class SinosoftCa implements SinosoftInterface{
 											AfterExpireDate = new Timestamp(l);
 										} else {//2、最后一张续保单止期<疫情截止日
 											//顺延后保单止期:疫情止期+疫情有效期
-											l = NCPEndDate + (NCPValidDate * 86400000);
+											l = NCPEndDate + 86400000 + (NCPValidDate * 86400000);
 											AfterExpireDate = new Timestamp(l);
 										}
 										//顺延天数：顺延后保单止期-原最靠后一张续保单止期
