@@ -144,11 +144,11 @@ public class Util {
                 //保单起期在疫情起期之后，保单止期在疫情止期之后
             }else if(startDate>=NCPStartDate/1000 && endDate >= NCPEndDate/1000){
 
-                endDate = NCPEndDate/1000;
+                endDate = NCPEndDate/1000+86400;
             }
 
          //疫情止期当天 算作疫情有效期，
-            while (time<endDate+86400){
+            while (time<endDate){
                 if(NCPStartDate/1000 <= time && time < NCPEndDate/1000+86400){
                     Timestamp timestamp = new Timestamp(time*1000);
                     timestampSet.add(timestamp);
