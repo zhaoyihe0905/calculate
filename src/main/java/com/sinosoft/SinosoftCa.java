@@ -112,7 +112,7 @@ public class SinosoftCa implements SinosoftInterface{
 					int error = 0;
 					for (CACMain_NCPB cacMain_ncpb : ThreadList) {
 						//拿每个保单的投保确认码，查询IACMain_NCPX-疫情期续保保单信息表中有无续保单，保单止期倒叙排序,根据此情况进行业务判断
-						String selectSql1 = "select * from INSTIACI.CACMain_NCPX where LastPolicyConfirmNo = ? order by ExpireDate desc";
+						String selectSql1 = "select * from CACMain_NCPX where LastPolicyConfirmNo = ? order by ExpireDate desc";
 						List<CACMain_NCPX> cacMain_ncpxs = (List<CACMain_NCPX>) CRUDTemplate.executeQuery("ca", selectSql1, new BeanListHandler(CACMain_NCPX.class), cacMain_ncpb.getConfirmSequenceNo());
 
 						//无续保单存在
