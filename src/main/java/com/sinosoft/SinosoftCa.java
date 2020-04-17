@@ -31,8 +31,14 @@ public class SinosoftCa implements SinosoftInterface{
     private static Date end;
     private static JTextArea textArea;
     private static String areaCode;
-
-    private static Integer ThreadCount = 0;
+	/**
+	 * 数组拆分单位量
+	 */
+	private static Integer ThreadCount = 0;
+	/**
+	 * 线程数量
+	 */
+	private static Integer ServiceThreadSize = 0;
     /**
      * 线程安全队列 正确处理数据数量统计
      */
@@ -60,13 +66,14 @@ public class SinosoftCa implements SinosoftInterface{
             e.printStackTrace();
         }
         ThreadCount = Integer.parseInt(prop.getProperty("ThreadMaxCount"));
+		ServiceThreadSize = Integer.parseInt(prop.getProperty("ServiceThreadSize"));
     }
 
 	public void SituationOne() {
 		/**
 		 * 线程池 100
 		 */
-		ExecutorService service = Executors.newFixedThreadPool(100);
+		ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
 
 		textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型1，业务计算方法处理开始-----------\n");
 		textArea.paintImmediately(textArea.getBounds());
@@ -96,7 +103,7 @@ public class SinosoftCa implements SinosoftInterface{
 			} else {
 				list1 = cacMain_ncpbs.subList(count, count + n);
 			}
-			count += 10;
+			count += n;
 			final List<CACMain_NCPB> ThreadList = list1;
 			//遍历数据
 			service.execute(new Runnable() {
@@ -349,7 +356,7 @@ public class SinosoftCa implements SinosoftInterface{
 		/**
 		 * 线程池 100
 		 */
-		ExecutorService service = Executors.newFixedThreadPool(100);
+		ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
 		if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
 			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:商业业务类型2，业务计算方法处理开始-----------"+"\n");
 			textArea.paintImmediately(textArea.getBounds());
@@ -378,7 +385,7 @@ public class SinosoftCa implements SinosoftInterface{
 				} else {
 					list1 = cacMain_ncpbs.subList(count, count + n);
 				}
-				count += 10;
+				count += n;
 				final List<CACMain_NCPB> ThreadList = list1;
 
 
@@ -642,7 +649,7 @@ public class SinosoftCa implements SinosoftInterface{
 		/**
 		 * 线程池 100
 		 */
-		ExecutorService service = Executors.newFixedThreadPool(100);
+		ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
         if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
             textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:业务类型3，业务计算方法处理开始-----------"+"\n");
 			textArea.paintImmediately(textArea.getBounds());
@@ -682,7 +689,7 @@ public class SinosoftCa implements SinosoftInterface{
 				} else {
 					list1 = cacMain_ncpbs.subList(count, count + n);
 				}
-				count += 10;
+				count += n;
 				final List<CACMain_NCPB> ThreadList = list1;
 				service.execute(new Runnable() {
 					public void run() {
@@ -861,7 +868,7 @@ public class SinosoftCa implements SinosoftInterface{
 		/**
 		 * 线程池 100
 		 */
-		ExecutorService service = Executors.newFixedThreadPool(100);
+		ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
         textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，计算方法处理开始-----------\n");
         textArea.paintImmediately(textArea.getBounds());
         //查询顺延保单数据开始
@@ -889,7 +896,7 @@ public class SinosoftCa implements SinosoftInterface{
 			} else {
 				list = NCPPostpone.subList(count, count + n);
 			}
-			count += 10;
+			count += n;
             final List<CACMain_NCPPostpone> threadList = list;
             service.execute(new Runnable() {
                 public void run() {

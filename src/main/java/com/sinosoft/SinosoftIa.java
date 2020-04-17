@@ -30,7 +30,14 @@ public class SinosoftIa implements SinosoftInterface{
     private static JTextArea textArea;
     private static String areaCode;
 
+    /**
+     * 数组拆分单位量
+     */
     private static Integer ThreadCount = 0;
+    /**
+     * 线程数量
+     */
+    private static Integer ServiceThreadSize = 0;
 
     /**
      * 线程安全队列 正确处理数据数量统计
@@ -56,13 +63,14 @@ public class SinosoftIa implements SinosoftInterface{
             e.printStackTrace();
         }
         ThreadCount = Integer.parseInt(prop.getProperty("ThreadMaxCount"));
+        ServiceThreadSize = Integer.parseInt(prop.getProperty("ServiceThreadSize"));
     }
 
     public void SituationOne() {
         /**
          * 线程池 100
          */
-        ExecutorService service = Executors.newFixedThreadPool(100);
+        ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
 
         textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型1，业务计算方法处理开始-----------\n");
 //        textArea.paintImmediately(textArea.getBounds());
@@ -92,7 +100,7 @@ public class SinosoftIa implements SinosoftInterface{
             }else{
                 list = iacMain_ncpbs.subList(count,count+n);
             }
-            count+=10;
+            count += n;
             final List<IACMain_NCPB> ThreadList = list;
             service.execute(new Runnable() {
                 public void run() {
@@ -347,7 +355,7 @@ public class SinosoftIa implements SinosoftInterface{
         /**
          * 线程池 100
          */
-        ExecutorService service = Executors.newFixedThreadPool(100);
+        ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
 	    if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
             textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:交强业务类型2，业务计算方法处理开始-----------"+"\n");
             textArea.paintImmediately(textArea.getBounds());
@@ -376,7 +384,7 @@ public class SinosoftIa implements SinosoftInterface{
                 }else{
                     list = iacMain_ncpbs.subList(count,count+n);
                 }
-                count+=10;
+                count += n;
                 final List<IACMain_NCPB> ThreadList = list;
 
                 service.execute(new Runnable() {
@@ -641,7 +649,7 @@ public class SinosoftIa implements SinosoftInterface{
         /**
          * 线程池 100
          */
-        ExecutorService service = Executors.newFixedThreadPool(100);
+        ExecutorService service = Executors.newFixedThreadPool(ServiceThreadSize);
         if((start!=null||start.getTime()!=0)&&(end!=null||end.getTime()!=0)&&(areaCode!=null||!areaCode.equals(""))) {
             textArea.append("["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]:业务类型3，业务计算方法处理开始-----------"+"\n");
             textArea.paintImmediately(textArea.getBounds());
@@ -682,7 +690,7 @@ public class SinosoftIa implements SinosoftInterface{
                 }else{
                     list = iacMain_ncpbs.subList(count,count+n);
                 }
-                count+=10;
+                count += n;
                 final List<IACMain_NCPB> ThreadList = list;
                 service.execute(new Runnable() {
                     public void run() {
