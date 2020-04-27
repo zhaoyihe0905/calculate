@@ -76,4 +76,48 @@ public class CRUDTemplate {
         return null;
     }
 
+    public static <T> T newExecuteQuery(Connection conn,String sql, IResultSetHandler<T> handler,Object... params){
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        try {
+            //获取预编译语句对象
+            psmt = conn.prepareStatement(sql);
+            //给预编译语句赋值
+            for (int i = 0; i < params.length; i++) {
+                psmt.setObject(i+1,params[i]);
+            }
+            //执行SQL语句获取结果集
+            rs = psmt.executeQuery();
+            //处理结果集
+            return handler.handle(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            JDBCUtil.close(null,psmt,rs);
+
+        }
+        return null;
+    }
+
+    public static int newExecuteUpdate(Connection conn,String sql,Object... params)throws Exception {
+        PreparedStatement psmt = null;
+        int result = 0;
+        try {
+            //获取预编译语句对象
+            psmt = conn.prepareStatement(sql);
+            //给预编译语句赋值
+            for (int i = 0; i < params.length; i++) {
+                psmt.setObject(i+1,params[i]);
+            }
+            //执行SQL语句获取执行结果
+            result = psmt.executeUpdate();
+        } catch (Exception e) {
+            throw  e;
+        }finally {
+            //关闭数据库连接
+            JDBCUtil.close(null,psmt,null);
+
+        }
+        return result;
+    }
 }
