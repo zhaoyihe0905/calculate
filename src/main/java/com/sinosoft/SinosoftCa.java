@@ -1,9 +1,6 @@
 package com.sinosoft;
 
-import com.CA.CACCoverage;
-import com.CA.CACMain_NCPB;
-import com.CA.CACMain_NCPPostpone;
-import com.CA.CACMain_NCPX;
+import com.CA.*;
 import com.CI.IACMain_NCPB;
 import com.sinosoft.jdbc.BeanListHandler;
 import com.sinosoft.jdbc.CRUDTemplate;
@@ -901,7 +898,7 @@ public class SinosoftCa implements SinosoftInterface{
         textArea.paintImmediately(textArea.getBounds());
         //查询顺延保单数据开始
 		String sq ="select ConfirmSequenceNo,ExpireDate,AfterExpireDate from CACMain_NCPPostpone where Flag != ?";
-		List<CACMain_NCPPostpone> NCPPostpone = (List<CACMain_NCPPostpone>)CRUDTemplate.executeQuery("ca", sq, new BeanListHandler(CACMain_NCPPostpone.class), "1");
+		List<NCPPostpone> NCPPostpone = (List<NCPPostpone>)CRUDTemplate.executeQuery("ca", sq, new BeanListHandler(NCPPostpone.class), "1");
         //查询保单数据结束
 		if (NCPPostpone == null || NCPPostpone.size()==0) {
 			textArea.append("[" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "]:险种顺延业务，未查询到顺延保单表信息-----------\n");
@@ -918,14 +915,14 @@ public class SinosoftCa implements SinosoftInterface{
         int n =ThreadCount;
         int count =0;
 		for(int h =0;h<=NCPPostpone.size()/n;h++) {
-			List<CACMain_NCPPostpone> list = null;
+			List<NCPPostpone> list = null;
 			if (count + n > NCPPostpone.size()) {
 				list = NCPPostpone.subList(count, NCPPostpone.size());
 			} else {
 				list = NCPPostpone.subList(count, count + n);
 			}
 			count += n;
-            final List<CACMain_NCPPostpone> threadList = list;
+            final List<NCPPostpone> threadList = list;
             service.execute(new Runnable() {
                 public void run() {
                     int tag = 0;
@@ -934,13 +931,13 @@ public class SinosoftCa implements SinosoftInterface{
 					//获取数据库连接对象
 					Connection conn = JDBCUtil.getConn("ca");
 					try {
-						for (CACMain_NCPPostpone cacMain_ncpPostpone : threadList) {
+						for (NCPPostpone ncpPostpone : threadList) {
 							boolean flag =true;
 							String sql="select ConfirmSequenceNo,CompanyCode,CoverageCode,EffectiveDate,ExpireDate from CACCoverage where ConfirmSequenceNo = ? ";
-							List<CACCoverage> cacCoverages = (List<CACCoverage>)CRUDTemplate.newExecuteQuery(conn, sql, new BeanListHandler(CACCoverage.class), cacMain_ncpPostpone.getConfirmSequenceNo());
+							List<CACCoverage> cacCoverages = (List<CACCoverage>)CRUDTemplate.newExecuteQuery(conn, sql, new BeanListHandler(CACCoverage.class), ncpPostpone.getConfirmSequenceNo());
 							if (cacCoverages != null && cacCoverages.size()!=0) {
 								for (CACCoverage cacCoverage : cacCoverages) {
-									if (cacCoverage.getExpireDate().compareTo(cacMain_ncpPostpone.getExpireDate())==0){
+									if (cacCoverage.getExpireDate().compareTo(ncpPostpone.getExpireDate())==0){
 										String insertSql = "insert into CACCoverage_NCPPostpone(ConfirmSequenceNo,CompanyCode,CoverageCode,EffectiveDate,ExpireDate,AfterExpireDate,InputDate,ValidStatus) values(?,?,?,?,?,?,?,?)";
 										try {
 											CRUDTemplate.newExecuteUpdate(conn,insertSql,
@@ -949,7 +946,7 @@ public class SinosoftCa implements SinosoftInterface{
 													cacCoverage.getCoverageCode(),
 													cacCoverage.getEffectiveDate(),
 													cacCoverage.getExpireDate(),
-													cacMain_ncpPostpone.getAfterExpireDate(),
+													ncpPostpone.getAfterExpireDate(),
 													new Timestamp(System.currentTimeMillis()), "1");
 
 											flag = false;
