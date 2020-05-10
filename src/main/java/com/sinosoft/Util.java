@@ -130,10 +130,14 @@ public class Util {
         //遍历保单起止日期数组
         for (List<Timestamp> timestamps : bigList) {
             //保单起期
-            long startDate = timestamps.get(0).getTime()/1000;
+            long startDate = (timestamps.get(0).getTime()/1000+28800)/86400*86400-28800;
             //保单止期
-            long endDate = timestamps.get(1).getTime()/1000;
-
+            long endDate =0;
+            if((timestamps.get(1).getTime()/1000+28800)%86400>0){
+                endDate =(timestamps.get(1).getTime()/1000+28800)/86400*86400-28800;
+            }else{
+                endDate =(timestamps.get(1).getTime()/1000+28800)/86400*86400-28800-86400;
+            }
             long time = startDate;
 
             if (startDate> NCPEndDate/1000+86400 || endDate <=NCPStartDate/1000 ){
@@ -148,7 +152,7 @@ public class Util {
             }
 
          //疫情止期当天 算作疫情有效期，
-            while (time<endDate){
+            while (time<=endDate){
                 if(NCPStartDate/1000 <= time && time < NCPEndDate/1000+86400){
                     Timestamp timestamp = new Timestamp(time*1000);
                     timestampSet.add(timestamp);

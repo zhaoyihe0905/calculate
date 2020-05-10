@@ -97,7 +97,7 @@ public class MainFrame extends JFrame {
 		textField.setColumns(10);
 
 		textField_2 = new JTextField();
-		textField_2.setText("2020-05-01 00:00:00");
+		textField_2.setText("2020-02-22 00:00:00");
 		textField_2.setColumns(10);
 		textField_2.setBounds(137, 74, 148, 24);
 		contentPane.add(textField_2);
