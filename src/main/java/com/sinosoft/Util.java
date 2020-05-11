@@ -140,7 +140,7 @@ public class Util {
             }
             long time = startDate;
 
-            if (startDate> NCPEndDate/1000+86400 || endDate <=NCPStartDate/1000 ){
+            if (startDate> NCPEndDate/1000+86400 || endDate <NCPStartDate/1000 ){
                 continue;
             }else if(startDate<=NCPStartDate/1000 && endDate < NCPEndDate/1000+86400){
                 time = NCPStartDate/1000;
